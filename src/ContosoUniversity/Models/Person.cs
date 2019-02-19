@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ContosoUniversity.Models
@@ -7,11 +8,11 @@ namespace ContosoUniversity.Models
     {
         public int ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last Name is required.")]
         [StringLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "First Name is required.")]
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         [Column("FirstName")]
         [Display(Name = "First Name")]
@@ -25,5 +26,14 @@ namespace ContosoUniversity.Models
                 return LastName + ", " + FirstMidName;
             }
         }
+
+        [Required(ErrorMessage = "Login is required.")]
+        public string Login { get; set; }
+
+        [Required(ErrorMessage = "Password is required.")]
+        [StringLength(64)]
+        public string Password { get; set; }
+
+        public virtual ICollection<File> Files { get; set; }
     }
 }
