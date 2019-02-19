@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ContosoUniversity.Buisiness;
+using ContosoUniversity.DTOModels;
+using ContosoUniversity.Models;
+using ContosoUniversity.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,9 +16,21 @@ namespace ContosoUniversity.Controllers.Api
     {
         [Route("{id}")]
         // GET api/<controller>/5
-        public string Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return "value";
+            // get the student with the id
+            StudentBL sbl = new StudentBL();
+            Student studentToTransform = sbl.GetStudentById(id);
+
+            if ( sbl == null)
+            {
+                return NotFound();
+            }
+
+            else
+            {
+                 return Ok(TransformStudentDTO.TransformStudentToStudentDTO(studentToTransform));
+            }
         }
 
      
