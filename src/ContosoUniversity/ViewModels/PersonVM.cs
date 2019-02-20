@@ -24,6 +24,7 @@ namespace ContosoUniversity.ViewModels
         public string FirstMidName { get; set; }
 
         [Required(ErrorMessage = "Login is required.")]
+        [StringLength(50,MinimumLength=6, ErrorMessage = "Login must have 6 Characters")]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Password is Required"), DataType(DataType.Password)]

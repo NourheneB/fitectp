@@ -22,19 +22,34 @@ namespace ContosoUniversity.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Register(PersonVM model)
 
         {
-            if(ModelState.IsValid)
-
+            if (ModelState.IsValid)
             {
-                if ( && model.Role == "Student")
+                UsernameValidation user = new UsernameValidation();
+                if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Student")
 
+                {
+                    AuthenticationBusiness student = new AuthenticationBusiness();
+                    student.CreateNewStudent(model);
+                    return View(model);
+                }
 
+                if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
 
-                    return View();
+                {
+                    AuthenticationBusiness instructor = new AuthenticationBusiness();
+                    instructor.CreateNewInstructor(model);
+                    return View(model);
+                }
+
+            }
+
+            return View();
+        
+
         }
-
     }
-}
