@@ -1,7 +1,9 @@
 ﻿using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.ViewModels;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -78,7 +80,19 @@ namespace ContosoUniversity.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+
+            StudentDetailsData studentDetails = new StudentDetailsData()
+            {
+                ID = student.ID,
+                LastName = student.LastName,
+                FirstMidName = student.FirstMidName,
+                EnrollmentDate = student.EnrollmentDate,
+                Enrollments = student.Enrollments,
+                Courses = db.Courses
+            };
+
+
+            return View(studentDetails);
         }
 
         // GET: Student/Create
