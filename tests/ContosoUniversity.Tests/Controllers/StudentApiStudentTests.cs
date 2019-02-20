@@ -1,5 +1,9 @@
-﻿using ContosoUniversity.DAL;
+﻿using ContosoUniversity.Business;
+using ContosoUniversity.Controllers.Api;
+using ContosoUniversity.DAL;
+using ContosoUniversity.DTOModels;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using ContosoUniversity.Tests.Tools;
 using NUnit.Framework;
 using System;
@@ -8,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -18,50 +23,83 @@ namespace ContosoUniversity.Tests.Controllers
         private MockHttpContextWrapper httpContext;
         private StudentApiController controllerToTest;
         private SchoolContext dbContext;
+        private StudentBL studentBL;
+        private EntityGenerator generator;
 
         [SetUp]
         public void Initialize()
         {
             httpContext = new MockHttpContextWrapper();
             controllerToTest = new StudentApiController();
-            controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
+            studentBL = new StudentBL();
+            //controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
             dbContext = new DAL.SchoolContext(this.ConnectionString);
-            controllerToTest.DbContext = dbContext;
+            generator = new EntityGenerator(dbContext);
+            studentBL.DbContext = dbContext;
+        }
+        [TearDown]
+        public void TearDown()
+        {
+            SettingUpTests();
         }
 
+        //Tests for GetStudentById()
         [Test]
-        public void Repository_StudentIdExist_ReturnStudent()
+        public void GetStudentById_StudentIdExists_ReturnStudent()
         {
             //Arrange
+            Student student = generator.CreateStudent("John","Doe","Doe","Doe");
             //Act
-            var result = repository.Get()
+            var result = studentBL.GetStudentById(student.ID);
             //Assert
-            Assert.NotNull(result);
-            Assert.That(result.IsInstanceOf Student); ;
+            Assert.That(result, Is.Not.Null);
+            Assert.AreEqual(result.ID, student.ID);
+        }
+        [Test]
+        public void GetStudentById_StudentIdDoesntExist_Null()
+        {
+             //Act
+            var result = studentBL.GetStudentById(0);
+            //Assert
+            Assert.IsNull(result);
         }
 
+        //Tests for TransformStudentToStudentDTO()
         [Test]
-        public void Get_StudentExists_Success()
-
+        public void TransformStudentToStudentDTO_StudentIdExists_ReturnStudent()
         {
             //Arrange
-            string expectedjson = "{\"id\":4,\"lastname\":\"Barzdukas\",\"firstname\":\"Gytis\",\"enrollmentDate\":\"01/09/2012\",\"enrollments\":[{\"courseId\":1050},{\"courseId\":1050}";
-            private Mock<repository> mocked =new Mock<repository>();
-            mocked
-                .SetUp(m=>mbox.repository It.Is<int>(x=>x==id))
-        .Returns(student);
+            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
             //Act
-            IHttpActionResult httpActionResult = controllerToTest.Get(15);
+            var result = TransformStudentDTO.TransformStudentToStudentDTO(student);
             //Assert
-            Assert.That(); //typeréponse=typeOk
-            Assert.AreEqual(httpActionResult, expectedjson);//réponse=chainejsonattendue
+            Assert.That(result, Is.Not.Null);
+            Assert.IsInstanceOf(typeof(StudentDTO),result);
         }
 
         [Test]
-        public void Get_StudentDoesntExist_404()
+        public void StudentApiController_StudentIdExists_ReturnJSON()
         {
-            Assert.That(); //typeréponse=typeNotFound
-
+            //Arrange
+            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
+            string expectedjson ="{\"id\":"+student.ID+",\"lastname\":\""+student.LastName+"\",\"firstname\":\""+student.FirstMidName+"\",\"enrollmentDate\":\""+student.EnrollmentDate+",\"enrollments\":[{\"courseId\":"+student.Enrollments+"},]}";
+            IHttpActionResult result = controllerToTest.Get(student.ID);
+            //Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.IsInstanceOf(typeof(OkResult), result);
+            Assert.AreEqual(expectedjson, result);
         }
+        [Test]
+        public void StudentApiController_StudentIdDoesntExist_Return404()
+        {
+            //Arrange
+            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
+            string expectedjson = "{\"id\":" + student.ID + ",\"lastname\":\"" + student.LastName + "\",\"firstname\":\"" + student.FirstMidName + "\",\"enrollmentDate\":\"" + student.EnrollmentDate + ",\"enrollments\":[{\"courseId\":" + student.Enrollments + "},]}";
+            IHttpActionResult result = controllerToTest.Get(-2);
+            //Assert
+            Assert.IsInstanceOf(typeof(NotFoundResult), result);
+            Assert.AreNotEqual(expectedjson, result);
+        }
+
     }
 }

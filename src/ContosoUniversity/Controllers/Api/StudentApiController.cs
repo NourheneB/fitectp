@@ -1,4 +1,4 @@
-﻿using ContosoUniversity.Buisiness;
+﻿using ContosoUniversity.Business;
 using ContosoUniversity.DTOModels;
 using ContosoUniversity.Models;
 using ContosoUniversity.Services;
@@ -22,7 +22,7 @@ namespace ContosoUniversity.Controllers.Api
             StudentBL sbl = new StudentBL();
             Student studentToTransform = sbl.GetStudentById(id);
 
-            if ( sbl == null)
+            if (studentToTransform == null)
             {
                 return NotFound();
             }

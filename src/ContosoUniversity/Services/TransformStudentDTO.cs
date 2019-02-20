@@ -16,14 +16,16 @@ namespace ContosoUniversity.Services
 
             List<EnrollmentDTO> coursesList = new List<EnrollmentDTO>();
 
-            foreach (Enrollment enrollment in student.Enrollments)
+            if (student.Enrollments != null)
             {
-                EnrollmentDTO course = new EnrollmentDTO();
-                course.courseId = enrollment.CourseID;
-                coursesList.Add(course);
+                foreach (Enrollment enrollment in student.Enrollments)
+                {
+                    EnrollmentDTO course = new EnrollmentDTO();
+                    course.courseId = enrollment.CourseID;
+                    coursesList.Add(course);
+                }
             }
-
-
+            
             studentDto.id = student.ID;
             studentDto.firstname = student.FirstMidName;
             studentDto.lastname = student.LastName;

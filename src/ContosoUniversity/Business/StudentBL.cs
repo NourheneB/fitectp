@@ -7,7 +7,7 @@ using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using ContosoUniversity.DTOModels;
 
-namespace ContosoUniversity.Buisiness
+namespace ContosoUniversity.Business
 {
     public class StudentBL
     {
@@ -22,15 +22,12 @@ namespace ContosoUniversity.Buisiness
         {
             try
             {
-
-                    return db.Students.FirstOrDefault(s => s.ID == id);
-               
-
+                return DbContext.Students.FirstOrDefault(s => s.ID == id);
             }
             catch (Exception)
             {
 
-                throw;
+                return (null);
             }
         }
     }
