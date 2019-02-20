@@ -35,6 +35,8 @@ namespace ContosoUniversity.ViewModels
         [CompareAttribute("NewPassword", ErrorMessage = "Password doesn't match.")]
         [StringLength(64)]
         public string ComfirmPassword { get; set; }
+        [Required(ErrorMessage = "Role is required")]
+        public string Role { get; set; }
         #endregion
     }
 }
