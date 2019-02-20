@@ -15,7 +15,6 @@ namespace ContosoUniversity.ViewModels
         [Required(ErrorMessage = "Password is Required"), DataType(DataType.Password)]
         [StringLength(64)]
         public string Password { get; set; }
-        [Required(ErrorMessage = "Role is required")]
-        public string Role { get; set; }
+
     }
 }

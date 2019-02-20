@@ -1,5 +1,6 @@
 ﻿using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
+using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -64,23 +65,25 @@ namespace ContosoUniversity.Controllers
         public ActionResult Login(LoginVM model)
 
         {
-            AuthenticationBusiness user = new AuthenticationBusiness();
-          
-            if (user.LoginPerson(model) != null && model.Role=="Student")
+            AuthenticationBusiness userBL = new AuthenticationBusiness();
+            Person user = userBL.LoginPerson(model);
+
+
+            if (user != null && user is Student)
             {
                 Session["UserID"] = user;
-                ViewBag.Message = "Welcome" + model.Login;
-                return RedirectToAction("Student", "Index");
+                TempData["LoginMessage"] = "Welcome " + model.Login;
+                return RedirectToAction("Index","Student" );
             }
-            else if (user.LoginPerson(model) != null && model.Role== "Instructor")
+            else if (user != null && user is Instructor)
             {
                 Session["UserID"] = user;
-                ViewBag.Message = "Welcome" + model.Login;
-                return RedirectToAction("Instructor", "Index");
+                TempData["LoginMessage"] = "Welcome " + model.Login;
+                return RedirectToAction("Index","Instructor");
             }
             else
             {
-                ViewBag.Message = "Login Or Password is wrong";
+                ViewBag.Message = "Invalid login or password";
                 return View();
             }
            
