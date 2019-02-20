@@ -25,11 +25,13 @@ namespace ContosoUniversity.Controllers
 
         [HttpPost]
         public ActionResult Register(PersonVM model)
+
         {
             if (ModelState.IsValid)
             {
                 UsernameValidation user = new UsernameValidation();
                 if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Student")
+
                 {
                     AuthenticationBusiness student = new AuthenticationBusiness();
                     student.CreateNewStudent(model);
@@ -37,23 +39,17 @@ namespace ContosoUniversity.Controllers
                 }
 
                 if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
+
                 {
                     AuthenticationBusiness instructor = new AuthenticationBusiness();
                     instructor.CreateNewInstructor(model);
                     return View(model);
                 }
+
             }
-       
+
             return View();
-        }
+        
 
-        [HttpPost]
-        public JsonResult CheckUsername (string username)
-        {
-            UsernameValidation userV = new UsernameValidation();
-
-            bool available = userV.UsernameIsAvailable(username);
-            return Json(available);
         }
     }
-}

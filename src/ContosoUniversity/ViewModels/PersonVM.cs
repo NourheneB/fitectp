@@ -12,31 +12,30 @@ namespace ContosoUniversity.ViewModels
     {
         #region Person
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required]
         [StringLength(50)]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required]
         [StringLength(50, ErrorMessage = "First name cannot be longer than 50 characters.")]
         [Column("FirstName")]
         [Display(Name = "First Name")]
         public string FirstMidName { get; set; }
 
-        [Required(ErrorMessage = "This field is required.")]
-        [StringLength(50,MinimumLength = 6, ErrorMessage = "Login must have 6 Characters")]
+        [Required(ErrorMessage = "Login is required.")]
+        [StringLength(50,MinimumLength=6, ErrorMessage = "Login must have 6 Characters")]
         public string Login { get; set; }
 
-        [Required(ErrorMessage = "Password is Required")]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "Password is Required"), DataType(DataType.Password)]
         [StringLength(64)]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Password doesn't match.")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm your password")]
-        public string ConfirmPassword { get; set; }
-
+     
+        [Required(ErrorMessage = "Confirm Password required")]
+        [CompareAttribute("NewPassword", ErrorMessage = "Password doesn't match.")]
+        [StringLength(64)]
+        public string ComfirmPassword { get; set; }
         [Required(ErrorMessage = "Role is required")]
         public string Role { get; set; }
         #endregion
