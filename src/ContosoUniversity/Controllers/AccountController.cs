@@ -18,51 +18,52 @@ namespace ContosoUniversity.Controllers
         }
 
         public ActionResult Register()
-
         {
             return View();
         }
 
         [HttpPost]
         public ActionResult Register(PersonVM model)
-
         {
             if (ModelState.IsValid)
             {
                 UsernameValidation user = new UsernameValidation();
                 if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Student")
-
                 {
                     AuthenticationBusiness student = new AuthenticationBusiness();
                     student.CreateNewStudent(model);
+                    ViewBag.MessageSuccess = "Registration successful !";
                     return View(model);
                 }
 
                 else if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
-
                 {
                     AuthenticationBusiness instructor = new AuthenticationBusiness();
                     instructor.CreateNewInstructor(model);
+                    ViewBag.MessageSuccess = "Registration successful !";
                     return View(model);
                 }
-           
-
             }
 
             return View();
-
-
         }
-        //Login
-        public ActionResult Login()
 
+        [HttpPost]
+        public JsonResult CheckUsername(string username)
+        {
+            UsernameValidation userV = new UsernameValidation();
+
+            bool available = userV.UsernameIsAvailable(username);
+            return Json(available);
+        }
+
+        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
         public ActionResult Login(LoginVM model)
-
         {
             AuthenticationBusiness user = new AuthenticationBusiness();
           
