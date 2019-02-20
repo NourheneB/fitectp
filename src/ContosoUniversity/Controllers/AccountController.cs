@@ -38,18 +38,60 @@ namespace ContosoUniversity.Controllers
                     return View(model);
                 }
 
-                if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
+                else if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
 
                 {
                     AuthenticationBusiness instructor = new AuthenticationBusiness();
                     instructor.CreateNewInstructor(model);
                     return View(model);
                 }
+           
 
             }
 
             return View();
-        
+
 
         }
+        //Login
+        public ActionResult Login()
+
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginVM model)
+
+        {
+            AuthenticationBusiness user = new AuthenticationBusiness();
+          
+            if (user.LoginPerson(model) != null && model.Role=="Student")
+            {
+                Session["UserID"] = user;
+                ViewBag.Message = "Welcome" + model.Login;
+                return RedirectToAction("Student", "Index");
+            }
+            else if (user.LoginPerson(model) != null && model.Role== "Instructor")
+            {
+                Session["UserID"] = user;
+                ViewBag.Message = "Welcome" + model.Login;
+                return RedirectToAction("Instructor", "Index");
+            }
+            else
+            {
+                ViewBag.Message = "Login Or Password is wrong";
+                return View();
+            }
+           
+            
+        }
+
+        public ActionResult Logout()
+
+        {
+            Session["UserID"] = null;
+            return RedirectToAction("Home","Index");
+        }
     }
+}
