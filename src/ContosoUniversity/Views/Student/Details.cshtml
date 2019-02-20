@@ -72,7 +72,7 @@
                         if (i == 0)
                         {
                             <td>
-                                @Html.ActionLink("Subscribe at this course", "Details", new { id = item.CourseID })
+                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.CourseID }, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
                             </td>
                         }
                         else
@@ -83,7 +83,6 @@
                 </tr>
                 }
             </table>
-            <br />
         </dd>
         <dt>
         </dt>

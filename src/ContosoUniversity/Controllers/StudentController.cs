@@ -91,12 +91,29 @@ namespace ContosoUniversity.Controllers
                 Courses = db.Courses
             };
 
+            TempData["StudentID"] = student.ID;
 
             return View(studentDetails);
         }
 
-        // GET: Student/Create
-        public ActionResult Create()
+        public ActionResult Subscribe(int id)
+        {
+            int studentID = (int)TempData["StudentID"];
+            Enrollment enrollementFind = db.Enrollments.FirstOrDefault(e => e.StudentID == studentID && e.CourseID == id);
+
+            if (enrollementFind == null)
+            {
+                db.Enrollments.Add(new Enrollment { CourseID = id, StudentID = studentID });
+                db.SaveChanges();
+            }
+            
+            TempData["StudentID"] = TempData["StudentID"];
+
+            return RedirectToAction("Details", new { controller = "Student", action = "Details", id = studentID });
+        }
+
+            // GET: Student/Create
+            public ActionResult Create()
         {
             return View();
         }
