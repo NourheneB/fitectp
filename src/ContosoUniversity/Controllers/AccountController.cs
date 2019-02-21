@@ -43,7 +43,6 @@ namespace ContosoUniversity.Controllers
                     instructor.CreateNewInstructor(model);
                     ViewBag.MessageSuccess = "Registration successful !";
                     return RedirectToAction("Login");
-
                 }
             }
 

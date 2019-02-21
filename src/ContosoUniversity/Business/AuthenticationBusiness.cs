@@ -4,6 +4,8 @@ using ContosoUniversity.Services;
 using ContosoUniversity.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -19,13 +21,13 @@ namespace ContosoUniversity.Business
         }
         public void CreateNewStudent(PersonVM model)
         {
-           Student newStudent = new Student
+            Student newStudent = new Student
             {
-               LastName = model.LastName,
-               FirstMidName = model.FirstMidName,
-               Login = model.Login,
-               Password = HashService.GenerateSHA256String(model.Password),
-               EnrollmentDate = DateTime.Now
+                LastName = model.LastName,
+                FirstMidName = model.FirstMidName,
+                Login = model.Login,
+                Password = HashService.GenerateSHA256String(model.Password),
+                EnrollmentDate = DateTime.Now
             };
 
             db.Students.Add(newStudent);
@@ -50,7 +52,8 @@ namespace ContosoUniversity.Business
 
         public Person LoginPerson(LoginVM model)
         {
-            Person user = db.People.FirstOrDefault(u => u.Login == model.Login && u.Password == HashService.GenerateSHA256String(model.Password));
+            string EncryptPass = HashService.GenerateSHA256String(model.Password);
+            Person user = db.People.FirstOrDefault(u => u.Login == model.Login && u.Password == EncryptPass);
             return (user);
         }
 
