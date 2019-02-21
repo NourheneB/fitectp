@@ -72,30 +72,27 @@ namespace ContosoUniversity.Controllers
 
             if (user != null && user is Student)
             {
-                Session["UserID"] = user;
+                Session["User"] = user;
                 TempData["LoginMessage"] = "Welcome " + model.Login;
                 return RedirectToAction("Index","Student" );
             }
             else if (user != null && user is Instructor)
             {
-                Session["UserID"] = user;
+                Session["User"] = user;
                 TempData["LoginMessage"] = "Welcome " + model.Login;
                 return RedirectToAction("Index","Instructor");
             }
             else
             {
-                ViewBag.Message = "Invalid login or password";
+                ModelState.AddModelError("", "Invalid login or password");
                 return View();
-            }
-           
-            
+            }    
         }
 
         public ActionResult Logout()
-
         {
-            Session["UserID"] = null;
-            return RedirectToAction("Home","Index");
+            Session["User"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

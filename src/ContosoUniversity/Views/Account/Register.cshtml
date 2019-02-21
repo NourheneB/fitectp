@@ -70,15 +70,10 @@
 
         @if (ViewBag.MessageSuccess != null)
         {
-        <div class="alert alert-success">
-            <strong> @ViewBag.MessageSuccess </strong>
-        </div>
+            <div class="alert alert-success">
+                <strong> @ViewBag.MessageSuccess </strong>
+            </div>
         }
-
-        <div>
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-
     </div>
 }
 
