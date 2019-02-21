@@ -47,6 +47,13 @@ namespace ContosoUniversity.Business
             db.SaveChanges();
         }
 
+        public Person LoginPerson(LoginVM model)
+        {
+            Person user = db.People.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
+            return (user);
+
+        }
+
 
     }
 }
