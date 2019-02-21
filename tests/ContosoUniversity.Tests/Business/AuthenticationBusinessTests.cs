@@ -54,8 +54,9 @@ namespace ContosoUniversity.Tests.Business
                 FirstMidName = "Harry",
                 Login = "login1",
                 Password = "password1",
-                ComfirmPassword = "password1",
-                //on attendant le role : student
+                ConfirmPassword = "password1",
+                Role = "student"
+               
             };
 
             //Act
@@ -80,8 +81,8 @@ namespace ContosoUniversity.Tests.Business
                 FirstMidName = "Harry",
                 Login = "login1",
                 Password = "password1",
-                ComfirmPassword = "password1",
-                //on attendant le role : instructor
+                ConfirmPassword = "password1",
+                Role = "instructor"
             };
 
             //Act
@@ -96,41 +97,39 @@ namespace ContosoUniversity.Tests.Business
         #region LoginPerson Tests
         
         [Test]
-        public void LoginPerson_
-
-       
-
-
-
-        /*
-
-
-        #endregion
-
-        #region Authenticate Tests
-
-        //Arrange for the following authentication tests
-        string expectedlogin = "login";
-        string expectedpassword = "password";
-
-        [SetUp] //to initialize a user to authentification test
-        public void CreationOfUserToTest()
+        public void LoginPerson_LoginPasswordFalse_UserNull()
         {
+            //Arrange
+            LoginVM modelTest = new LoginVM()
+            {
+                Login = "login1",
+                Password = "password1"
+            };
+            //Act
+            Person user = authenticationBusinessToTest.LoginPerson(modelTest);
+            //Assert
+            Assert.IsNull(user);
+        }
+        [Test]
+        public void LoginPerson_LoginPasswordTrue_UserNotNull()
+        {
+            //Arrange
+            LoginVM modelTest = new LoginVM()
+            {
+                Login = "login1",
+                Password = "password1"
+            };
+
             EntityGenerator generator = new EntityGenerator(dbContext);
-            Student student = generator.CreateStudent(expectedlogin, expectedpassword);
+            generator.CreatePersonWithLoginAndPassword(modelTest);
+
+            //Act
+            var user = authenticationBusinessToTest.LoginPerson(modelTest);
+            //Assert
+            Assert.IsNotNull(user);
         }
 
-        [TearDown] //to clean db after each test
-        public void CleanUpDb()
-        {
-            SettingUpTests();
-        }
-
-       /* [TestMethod]
-        public void CreateNewStudent_EtatInitial_EtatAttendu()
-        {
-            throw new NotImplementedException();
-        }*/
         #endregion
+
     }
 }
