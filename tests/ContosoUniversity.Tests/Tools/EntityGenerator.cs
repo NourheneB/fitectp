@@ -17,15 +17,19 @@ namespace ContosoUniversity.Tests.Tools
             this.dbContext = dbContext;
         }
 
-        public Student CreateStudent(string lastname, string firstname)
+        public Student CreateStudent(string lastname, string firstname, string login, string password)
         {
             var student = new Student()
             {
                 LastName = lastname,
-                FirstMidName = firstname
+                FirstMidName = firstname,
+                Login = login,
+                Password = password,
+                EnrollmentDate = DateTime.Now,
             };
 
             this.dbContext.Students.Add(student);
+            dbContext.SaveChanges();
             return student;
         }
     }

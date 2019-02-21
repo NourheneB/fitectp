@@ -1,7 +1,8 @@
-﻿@model ContosoUniversity.Models.Student
+﻿@model ContosoUniversity.ViewModels.StudentDetailsData
 
 @{
     ViewBag.Title = "Details";
+    string classValue = "";
 }
 
 <h2>Details</h2>
@@ -37,23 +38,63 @@
             @Html.DisplayNameFor(model => model.Enrollments)
         </dt>
         <dd>
-            <table class="table">
-                <tr>
+            <table class="table" id="table">
+                <tr style="background-color: lightgray">
                     <th>Course Title</th>
-                    <th>Grade</th>
+                    <th></th>
                 </tr>
-                @foreach (var item in Model.Enrollments)
+
+                @foreach (var item in Model.Courses)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Course.Title)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Grade)
-                        </td>
-                    </tr>
+                    foreach (var e in Model.Enrollments)
+                    {
+                        if (e.CourseID == item.CourseID)
+                        {
+                            classValue = "success";
+                            break;
+                        }
+                        classValue = "";
+                    }
+                <tr class="@classValue">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    @{
+                        int i = 0;
+                        foreach (var e in Model.Enrollments)
+                        {
+                            if (e.CourseID == item.CourseID)
+                            {
+                                i++;
+                                break;
+                            }
+                        }
+                        if (i == 0)
+                        {
+                            <td>
+                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.CourseID }, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
                 }
             </table>
+        </dd>
+        <dt>
+        </dt>
+        <dd>
+            <img src="~/Data/Image/SubscribeCourse.png" style="margin-bottom: 2pt" />
+            <span>Course ever subscribe</span>
+        </dd>
+        <dt>
+        </dt>
+        <dd>
+            <img src="~/Data/Image/Non-SubscribeCourse.png" />
+            <span>Course you can subscribe</span>
         </dd>
     </dl>
 </div>
@@ -61,3 +102,8 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+@section Scripts
+    {
+    
+}
