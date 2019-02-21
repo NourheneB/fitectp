@@ -73,14 +73,14 @@ namespace ContosoUniversity.Controllers
             if (user != null && user is Student)
             {
                 Session["User"] = user;
-                TempData["LoginMessage"] = "Welcome " + model.Login;
-                return RedirectToAction("Index","Student" );
+                Session["UserID"] = user.ID;
+                return RedirectToAction("Details", "Student", new { id = user.ID });
             }
             else if (user != null && user is Instructor)
             {
                 Session["User"] = user;
-                TempData["LoginMessage"] = "Welcome " + model.Login;
-                return RedirectToAction("Index","Instructor");
+                Session["UserID"] = user.ID;
+                return RedirectToAction("Details", "Instructor", new { id = user.ID });
             }
             else
             {
