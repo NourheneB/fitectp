@@ -131,7 +131,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-	<Compile Include="Business\AuthenticationBusiness.cs" />
+    <Compile Include="Business\AuthenticationBusiness.cs" />
     <Compile Include="Business\UsernameValidation.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -194,6 +194,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HashService.cs" />
     <Compile Include="Services\TransformStudentDTO.cs" />
     <Compile Include="ViewModels\AssignedCourseData.cs" />
     <Compile Include="ViewModels\EnrollmentDateGroup.cs" />

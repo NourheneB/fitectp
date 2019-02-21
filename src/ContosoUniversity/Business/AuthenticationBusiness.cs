@@ -1,5 +1,6 @@
 ﻿using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using ContosoUniversity.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace ContosoUniversity.Business
                LastName = model.LastName,
                FirstMidName = model.FirstMidName,
                Login = model.Login,
-               Password = model.Password,
+               Password = HashService.GenerateSHA256String(model.Password),
                EnrollmentDate = DateTime.Now
             };
 
@@ -37,7 +38,7 @@ namespace ContosoUniversity.Business
                 LastName = model.LastName,
                 FirstMidName = model.FirstMidName,
                 Login = model.Login,
-                Password = model.Password,
+                Password = HashService.GenerateSHA256String(model.Password),
                 HireDate = DateTime.Now
             };
 
@@ -49,9 +50,8 @@ namespace ContosoUniversity.Business
 
         public Person LoginPerson(LoginVM model)
         {
-            Person user = db.People.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
+            Person user = db.People.FirstOrDefault(u => u.Login == model.Login && u.Password == HashService.GenerateSHA256String(model.Password));
             return (user);
-
         }
 
 

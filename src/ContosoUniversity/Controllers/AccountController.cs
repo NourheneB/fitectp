@@ -34,7 +34,7 @@ namespace ContosoUniversity.Controllers
                     AuthenticationBusiness student = new AuthenticationBusiness();
                     student.CreateNewStudent(model);
                     ViewBag.MessageSuccess = "Registration successful !";
-                    return View(model);
+                    return RedirectToAction("Login");
                 }
 
                 else if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
@@ -42,7 +42,8 @@ namespace ContosoUniversity.Controllers
                     AuthenticationBusiness instructor = new AuthenticationBusiness();
                     instructor.CreateNewInstructor(model);
                     ViewBag.MessageSuccess = "Registration successful !";
-                    return View(model);
+                    return RedirectToAction("Login");
+
                 }
             }
 
