@@ -18,8 +18,8 @@ namespace ContosoUniversity.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EnrollmentDate { get; set; }
 
-        public IEnumerable<Enrollment> Enrollments { get; set; }
+        public Dictionary<int, string> Enrollments { get; set; }
 
-        public IEnumerable<Course> Courses { get; set; }
+        public Dictionary<int, string> Courses { get; set; }
     }
 }

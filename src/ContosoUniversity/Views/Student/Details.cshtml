@@ -46,33 +46,25 @@
 
                 @foreach (var item in Model.Courses)
                 {
-                    foreach (var e in Model.Enrollments)
+                    classValue = "";
+                    if (Model.Enrollments.ContainsKey(item.Key))
                     {
-                        if (e.CourseID == item.CourseID)
-                        {
-                            classValue = "success";
-                            break;
-                        }
-                        classValue = "";
+                        classValue = "success";
                     }
                 <tr class="@classValue">
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        @Html.DisplayFor(modelItem => item.Value)
                     </td>
                     @{
-                        int i = 0;
-                        foreach (var e in Model.Enrollments)
+                        bool find = false;
+                        if (Model.Enrollments.ContainsKey(item.Key))
                         {
-                            if (e.CourseID == item.CourseID)
-                            {
-                                i++;
-                                break;
-                            }
+                            find = true;
                         }
-                        if (i == 0)
+                        if (!find)
                         {
                             <td>
-                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.CourseID }, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
+                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.Key}, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
                             </td>
                         }
                         else
@@ -88,7 +80,7 @@
         </dt>
         <dd>
             <img src="~/Data/Image/SubscribeCourse.png" style="margin-bottom: 2pt" />
-            <span>Course ever subscribe</span>
+            <span>Course already subscribe</span>
         </dd>
         <dt>
         </dt>

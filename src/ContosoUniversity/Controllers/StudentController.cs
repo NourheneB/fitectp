@@ -81,14 +81,20 @@ namespace ContosoUniversity.Controllers
                 return HttpNotFound();
             }
 
+            Dictionary<int, string> enrollmentsData = new Dictionary<int, string>();
+            foreach(Enrollment e in student.Enrollments) enrollmentsData.Add(e.CourseID, e.Course.Title);
+
+            Dictionary<int, string> coursesData = new Dictionary<int, string>();
+            foreach (Course c in db.Courses) coursesData.Add(c.CourseID, c.Title);
+
             StudentDetailsData studentDetails = new StudentDetailsData()
             {
                 ID = student.ID,
                 LastName = student.LastName,
                 FirstMidName = student.FirstMidName,
                 EnrollmentDate = student.EnrollmentDate,
-                Enrollments = student.Enrollments,
-                Courses = db.Courses
+                Enrollments = enrollmentsData,
+                Courses = coursesData
             };
 
             TempData["StudentID"] = student.ID;
