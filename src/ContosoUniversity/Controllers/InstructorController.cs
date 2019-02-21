@@ -10,13 +10,12 @@ using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using System.Data.Entity.Infrastructure;
+using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
-    public class InstructorController : Controller
+    public class InstructorController : FatherOfControllers
     {
-        private SchoolContext db = new SchoolContext();
-
         // GET: Instructor
         public ActionResult Index(int? id, int? courseID)
         {

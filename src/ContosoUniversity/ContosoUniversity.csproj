@@ -132,10 +132,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\DBUtils.cs" />
     <Compile Include="Business\StudentBL.cs" />
     <Compile Include="Controllers\Api\StudentApiController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\FatherOfControllers.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InstructorController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -263,6 +265,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Services\Transform\" />
+    <Folder Include="Views\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,4 +1,5 @@
 ﻿using ContosoUniversity.Controllers;
+using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
 using ContosoUniversity.Tests.Tools;
@@ -14,16 +15,14 @@ namespace ContosoUniversity.Tests.Controllers
     {
         private MockHttpContextWrapper httpContext;
         private StudentController controllerToTest;
-        private SchoolContext dbContext;
 
         [SetUp]
         public void Initialize()
         {
             httpContext = new MockHttpContextWrapper();
+            DBUtils.db = new DAL.SchoolContext(this.ConnectionString);
             controllerToTest = new StudentController();
             controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
-            dbContext = new DAL.SchoolContext(this.ConnectionString);
-            controllerToTest.DbContext = dbContext;
         }
 
         [Test]
@@ -34,7 +33,7 @@ namespace ContosoUniversity.Tests.Controllers
             string login = "login";
             string password = "password";
 
-            EntityGenerator generator = new EntityGenerator(dbContext);
+            EntityGenerator generator = new EntityGenerator();
             Student student = generator.CreateStudent(expectedLastName, expectedFirstName, login, password);
 
             var result = controllerToTest.Details(student.ID) as ViewResult;
@@ -68,7 +67,7 @@ namespace ContosoUniversity.Tests.Controllers
             string password = "password";
 
 
-            EntityGenerator generator = new EntityGenerator(dbContext);
+            EntityGenerator generator = new EntityGenerator();
             Student student = generator.CreateStudent(previousLastName, previousFirstName, login, password);
             student.LastName = expectedLastName;
 
@@ -76,7 +75,7 @@ namespace ContosoUniversity.Tests.Controllers
 
             var result = controllerToTest.EditPost(student.ID) as ViewResult;
 
-            Student savedStudent = dbContext.Students.Find(student.ID);
+            Student savedStudent = DBUtils.db.Students.Find(student.ID);
 
             Assert.That(result, Is.Not.Null);
             Assert.That((result.Model as Student).LastName, Is.EqualTo(expectedLastName));
