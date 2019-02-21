@@ -91,15 +91,14 @@ namespace ContosoUniversity.Tests.Business
 
             Assert.IsNotNull(dbContext.Instructors.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == "password1"));
         }
+        #endregion
 
-      /*  [TearDown]
-        public void CleanUp()
-        {
-            SettingUpTests();
-            //var instructorToRemove = dbContext.Students.FirstOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == "password1");
-            //dbContext.Instructors.Remove(instructorToRemove);
-        }*/
+        #region LoginPerson Tests
+        
+        [Test]
+        public void LoginPerson_
 
+       
 
 
 
