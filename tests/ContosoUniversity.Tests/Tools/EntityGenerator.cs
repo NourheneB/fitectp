@@ -1,5 +1,6 @@
 ﻿using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,6 @@ namespace ContosoUniversity.Tests.Tools
 {
     public class EntityGenerator
     {
-        private readonly SchoolContext dbContext;
-
-        public EntityGenerator(SchoolContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
 
         public Student CreateStudent(string lastname, string firstname, string login, string password)
         {
@@ -28,8 +23,8 @@ namespace ContosoUniversity.Tests.Tools
                 EnrollmentDate = DateTime.Now,
             };
 
-            this.dbContext.Students.Add(student);
-            dbContext.SaveChanges();
+            DBUtils.db.Students.Add(student);
+            DBUtils.db.SaveChanges();
             return student;
         }
     }
