@@ -50,7 +50,8 @@ namespace ContosoUniversity.Controllers
 
                  Instructor instructor = lessonBL.GetInstructor(10);
 
-                // Check endhour > starthour
+
+                // Can we refactor those tests
                 if (DateTime.Compare(StartHour, EndHour) > 0)
                 {
                     TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
@@ -148,7 +149,7 @@ namespace ContosoUniversity.Controllers
                 lesson.StartHour = lessonEdit.StartHour;
                 lesson.EndHour = lessonEdit.EndHour;
 
-                // Check endhour > starthour
+                // Can we refactor those tests?
                 if (DateTime.Compare(lesson.StartHour, lesson.EndHour) > 0)
                 {
                     TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;

@@ -29,7 +29,7 @@ namespace ContosoUniversity.ViewModels
 
         [Required]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start Date")]
         public DateTime DateStart { get; set; }
 

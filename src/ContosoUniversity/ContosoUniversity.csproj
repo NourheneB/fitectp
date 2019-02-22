@@ -131,6 +131,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Business\ScheduleBL.cs" />
     <Compile Include="Business\AuthenticationBusiness.cs" />
     <Compile Include="Business\CourseBL.cs" />
     <Compile Include="Business\LessonBL.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Services\HashService.cs" />
     <Compile Include="Services\TimeService.cs" />
     <Compile Include="Services\TransformStudentDTO.cs" />
+    <Compile Include="ViewModels\WeeklyScheduleVM.cs" />
     <Compile Include="ViewModels\AssignedCourseData.cs" />
     <Compile Include="ViewModels\EnrollmentDateGroup.cs" />
     <Compile Include="ViewModels\InstructorIndexData.cs" />
@@ -324,11 +326,12 @@
     <Content Include="Views\Lesson\Details.cshtml" />
     <Content Include="Views\Lesson\Edit.cshtml" />
     <Content Include="Views\Lesson\Index.cshtml" />
+    <Content Include="Views\Home\IndexInstructor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Authentication\" />
     <Folder Include="Views\Abstract\" />
+    <Folder Include="Views\Authentication\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

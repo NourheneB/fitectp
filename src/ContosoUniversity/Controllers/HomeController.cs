@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
+using ContosoUniversity.Enumeration;
+using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 
 
@@ -13,9 +15,22 @@ namespace ContosoUniversity.Controllers
     public class HomeController : Controller
     {
         SchoolContext db = new SchoolContext();
+        ScheduleBL scheduleBL = new ScheduleBL();
+        LessonBL lessonBL = new LessonBL();
 
         public ActionResult Index()
         {
+            if (true)
+            {
+                // Temporary the ID is set manually
+                // waiting to Session["User"].ID applied everywhere
+
+                WeeklyScheduleVM weeklySchedule = new WeeklyScheduleVM();
+                weeklySchedule.Agenda = scheduleBL.GetWeeklyScheduleInstructor(10);
+                weeklySchedule.UserName = lessonBL.GetInstructor(10).FullName;
+                ViewBag.Lessons = scheduleBL.GetWeeklyScheduleInstructor(10);
+                return View("IndexInstructor", weeklySchedule);
+            }
             return View();
         }
 
