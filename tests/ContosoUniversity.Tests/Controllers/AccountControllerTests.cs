@@ -30,6 +30,6 @@ namespace ContosoUniversity.Tests.Controllers
         {
             SettingUpTests();
         }
-       
+
     }
 }
