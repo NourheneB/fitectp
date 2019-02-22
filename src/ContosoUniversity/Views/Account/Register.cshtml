@@ -80,30 +80,33 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            var timer;
             $("#Login").keyup(function () {
                 var username = $("#Login").val();
+                clearTimeout(timer);
                 if (username.length >= 6) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Account/CheckUsername",
-                        data: '{username:"' + username + '" }',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (response) {
+                    timer = setTimeout(function () {
+                        $.ajax({
+                            type: "GET",
+                            url: "/api/userInfo/" + username,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
 
-                            var message = $("#message");
-                            if (response == true) {
-                                //Username is available.
-                                message.css("color", "green");
-                                message.html("That username is available");
+                                var message = $("#message");
+                                if (response == true) {
+                                    //Username is available.
+                                    message.css("color", "green");
+                                    message.html("That username is available");
+                                }
+                                else {
+                                    //Username is not available.
+                                    message.css("color", "red");
+                                    message.html("That username is already taken. Please choose another");
+                                }
                             }
-                            else {
-                                //Username is not available.
-                                message.css("color", "red");
-                                message.html("That username is already taken. Please choose another");
-                            }
-                        }
-                    });
+                        });
+                    }, 500)
                 }
                 else {
                     var message = $("#message");

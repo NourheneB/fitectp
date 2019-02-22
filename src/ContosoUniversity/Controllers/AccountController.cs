@@ -49,15 +49,6 @@ namespace ContosoUniversity.Controllers
             return View();
         }
 
-        [HttpPost]
-        public JsonResult CheckUsername(string username)
-        {
-            UsernameValidation userV = new UsernameValidation();
-
-            bool available = userV.UsernameIsAvailable(username);
-            return Json(available);
-        }
-
         public ActionResult Login()
         {
             return View();
