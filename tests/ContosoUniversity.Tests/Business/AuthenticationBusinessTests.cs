@@ -13,12 +13,14 @@ using System;
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ContosoUniversity.ViewModels;
 using System.Linq;
+using ContosoUniversity.Services;
 
 namespace ContosoUniversity.Tests.Business
 {
    
     public class AuthenticationBusinessTests : IntegrationTestsBase
     {
+
         //private MockHttpContextWrapper httpContext;
         private AuthenticationBusiness authenticationBusinessToTest;
         private SchoolContext dbContext;
@@ -26,9 +28,9 @@ namespace ContosoUniversity.Tests.Business
         [SetUp]
         public void Initialize()
         {
-           // httpContext = new MockHttpContextWrapper();
+            // httpContext = new MockHttpContextWrapper();
             authenticationBusinessToTest = new AuthenticationBusiness();
-           // authenticationBusinessToTest.BusinessContext = new ControllerContext(httpContext.Context.Object, new RouteData(), authenticationBusinessToTest);
+            // authenticationBusinessToTest.BusinessContext = new ControllerContext(httpContext.Context.Object, new RouteData(), authenticationBusinessToTest);
             dbContext = new DAL.SchoolContext(this.ConnectionString);
             authenticationBusinessToTest.DbContext = dbContext;
         }
@@ -44,7 +46,7 @@ namespace ContosoUniversity.Tests.Business
 
         //CreateNewStudent Method
         [Test]
-        public void CreateNewStudent_CreateNewStudent_NewStudentCreated()
+        public void CreateNewStudent_NewStudent_NewStudentCreated()
         {
             //Arrange
 
@@ -56,22 +58,23 @@ namespace ContosoUniversity.Tests.Business
                 Password = "password1",
                 ConfirmPassword = "password1",
                 Role = "student"
-               
-            };
 
+            };
+            //Ceci rend le test dependant de la methode GenerateSHA256String(string inputString) de la Classe HashService
+            string passwordTest = HashService.GenerateSHA256String(modelTest.Password);
             //Act
-           authenticationBusinessToTest.CreateNewStudent(modelTest);
+            authenticationBusinessToTest.CreateNewStudent(modelTest);
 
             //Assert
 
-            Assert.IsNotNull(dbContext.Students.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == "password1"));
+            Assert.IsNotNull(dbContext.Students.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest));
         }
 
-        
+
 
         //CreateNewInstructor Method
         [Test]
-        public void CreateNewInstructor_CreateNewInstructor_NewInstructorCreated()
+        public void CreateNewInstructor_NewInstructor_NewInstructorCreated()
         {
             //Arrange
 
@@ -85,17 +88,19 @@ namespace ContosoUniversity.Tests.Business
                 Role = "instructor"
             };
 
+            //Ceci rend le test dependant de la methode GenerateSHA256String(string inputString) de la Classe HashService
+            string passwordTest = HashService.GenerateSHA256String(modelTest.Password);
             //Act
             authenticationBusinessToTest.CreateNewInstructor(modelTest);
-
+            Instructor instructor = dbContext.Instructors.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest);
             //Assert
 
-            Assert.IsNotNull(dbContext.Instructors.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == "password1"));
+            Assert.IsNotNull(instructor);
         }
         #endregion
 
         #region LoginPerson Tests
-        
+        //Valitation peut se faire peut-etre cote client?
         [Test]
         public void LoginPerson_LoginPasswordFalse_UserNull()
         {
@@ -105,11 +110,13 @@ namespace ContosoUniversity.Tests.Business
                 Login = "login1",
                 Password = "password1"
             };
+
             //Act
             Person user = authenticationBusinessToTest.LoginPerson(modelTest);
             //Assert
             Assert.IsNull(user);
         }
+        //
         [Test]
         public void LoginPerson_LoginPasswordTrue_UserNotNull()
         {
@@ -119,7 +126,7 @@ namespace ContosoUniversity.Tests.Business
                 Login = "login1",
                 Password = "password1"
             };
-
+            
             EntityGenerator generator = new EntityGenerator(dbContext);
             generator.CreatePersonWithLoginAndPassword(modelTest);
 
