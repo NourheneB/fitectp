@@ -135,6 +135,7 @@
     <Compile Include="Business\UsernameValidation.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\DBUtils.cs" />
     <Compile Include="Business\StudentBL.cs" />
     <Compile Include="Controllers\Api\StudentApiController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
@@ -308,6 +309,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Services\Transform\" />
     <Folder Include="Views\Authentication\" />
+    <Folder Include="Views\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

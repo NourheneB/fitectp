@@ -11,18 +11,12 @@ namespace ContosoUniversity.Business
 {
     public class StudentBL
     {
-        private SchoolContext db = new SchoolContext();
-        public SchoolContext DbContext
-        {
-            get { return db; }
-            set { db = value; }
-        }
-
         public Student GetStudentById(int id)
         {
             try
             {
-                return DbContext.Students.FirstOrDefault(s => s.ID == id);
+                return DBUtils.db.Students.Find(id);
+                //return DbContext.Students.FirstOrDefault(s => s.ID == id);
             }
             catch (Exception)
             {

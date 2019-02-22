@@ -9,13 +9,13 @@ using System.Web.Mvc;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
 using System.Data.Entity.Infrastructure;
+using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
     public class CourseController : Controller
     {
-        private SchoolContext db = new SchoolContext();
-
+        SchoolContext db = new SchoolContext();
         // GET: Course
         public ActionResult Index(int? SelectedDepartment)
         {

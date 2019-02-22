@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
 using ContosoUniversity.ViewModels;
 
@@ -11,7 +12,7 @@ namespace ContosoUniversity.Controllers
 {
     public class HomeController : Controller
     {
-        private SchoolContext db = new SchoolContext();
+        SchoolContext db = new SchoolContext();
 
         public ActionResult Index()
         {

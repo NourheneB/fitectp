@@ -1,5 +1,6 @@
 ﻿using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.Business;
 using ContosoUniversity.ViewModels;
 using PagedList;
 using System;
