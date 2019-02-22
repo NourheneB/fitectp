@@ -198,6 +198,7 @@
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConnexionService.cs" />
     <Compile Include="Services\HashService.cs" />
     <Compile Include="Services\TransformStudentDTO.cs" />
     <Compile Include="ViewModels\AssignedCourseData.cs" />
