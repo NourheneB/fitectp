@@ -46,45 +46,56 @@ namespace ContosoUniversity.Controllers
 
             if (ModelState.IsValid)
             {
-                // remplace with connected user
-
-                 Instructor instructor = lessonBL.GetInstructor(10);
+                Person user = ConnexionService.GetSession();
 
 
-                // Can we refactor those tests
-                if (DateTime.Compare(StartHour, EndHour) > 0)
+                if (user != null && user is Instructor)
                 {
-                    TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
-                    return RedirectToAction(nameof(LessonController.Create), "Lesson");
-                }
 
-                if(StartHour.Hour < 8 || StartHour.Hour > 18)
+                    Instructor instructor = lessonBL.GetInstructor(user.ID);
+
+
+                    // Can we refactor those tests
+                    if (DateTime.Compare(StartHour, EndHour) > 0)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
+                        return RedirectToAction(nameof(LessonController.Create), "Lesson");
+                    }
+
+                    if (StartHour.Hour < 8 || StartHour.Hour > 18)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
+                        return RedirectToAction(nameof(LessonController.Create), "Lesson");
+                    }
+
+                    if (EndHour.Hour < 9 || EndHour.Hour > 19)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
+                        return RedirectToAction(nameof(LessonController.Create), "Lesson");
+                    }
+
+                    Lesson lesson = lessonBL.CreateLesson(instructor, Day, Course, StartHour, EndHour, DateStart);
+                    // vérification d'agenda
+                    if (!lessonBL.IsPlanningCreationValid(lesson))
+                    {
+                        TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR} {TimeService.GetHourFromDate(StartHour)} h and {TimeService.GetHourFromDate(EndHour)} h {Day}";
+                        return RedirectToAction(nameof(LessonController.Create), "Lesson");
+                    }
+
+                    lessonBL.AddLesson(lesson);
+
+
+                    // appel BL de creation
+                    return RedirectToAction("Index");
+                }
+                else
                 {
-                    TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
-                    return RedirectToAction(nameof(LessonController.Create), "Lesson");
+                    return RedirectToAction("Index", "Home");
                 }
-
-                if (EndHour.Hour < 9 || EndHour.Hour > 19)
-                {
-                    TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
-                    return RedirectToAction(nameof(LessonController.Create), "Lesson");
-                }
-
-                Lesson lesson = lessonBL.CreateLesson(instructor, Day, Course, StartHour, EndHour, DateStart);
-                // vérification d'agenda
-                if (!lessonBL.IsPlanningCreationValid(lesson))
-                {
-                    TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR} {TimeService.GetHourFromDate(StartHour)} h and {TimeService.GetHourFromDate(EndHour)} h {Day}";
-                    return RedirectToAction(nameof(LessonController.Create), "Lesson");
-                }
-
-                lessonBL.AddLesson(lesson);
-
-
-                // appel BL de creation
-                return RedirectToAction("Index");
+            
             }
             return RedirectToAction(nameof(LessonController.Create));
+
         }
 
         // GET: Lessons/Details/5
@@ -118,19 +129,30 @@ namespace ContosoUniversity.Controllers
                 return HttpNotFound();
             }
 
-            // TDO Refactoring?
-            LessonEditVM lessonToEdit = new LessonEditVM();
-            lessonToEdit.LessonId = lesson.LessonID;
-            lessonToEdit.Instructor = lesson.Instructor;
-            lessonToEdit.Course = lesson.Course;
-            lessonToEdit.Day = lesson.Day;
-            lessonToEdit.StartHour = lesson.StartHour;
-            lessonToEdit.EndHour = lesson.EndHour;
-            lessonToEdit.DateStart = lesson.DateStart;
+            Person user = ConnexionService.GetSession();
 
-            // TODO userConnected ID
-            ViewBag.InstructorID = 10;
-            return View(lessonToEdit);
+
+            if (user != null && user is Instructor)
+            {
+
+                // TDO Refactoring?
+                LessonEditVM lessonToEdit = new LessonEditVM();
+                lessonToEdit.LessonId = lesson.LessonID;
+                lessonToEdit.Instructor = lesson.Instructor;
+                lessonToEdit.Course = lesson.Course;
+                lessonToEdit.Day = lesson.Day;
+                lessonToEdit.StartHour = lesson.StartHour;
+                lessonToEdit.EndHour = lesson.EndHour;
+                lessonToEdit.DateStart = lesson.DateStart;
+
+                // TODO userConnected ID
+                ViewBag.InstructorID = user.ID;
+                return View(lessonToEdit);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         // POST: Lessons/Edit/5
@@ -143,40 +165,48 @@ namespace ContosoUniversity.Controllers
 
             if (ModelState.IsValid)
             {
-                lessonEdit.StartHour = lessonBL.HarmonizeDatetime(lessonEdit.StartHour);
-                lessonEdit.EndHour = lessonBL.HarmonizeDatetime(lessonEdit.EndHour);
-                Lesson lesson = lessonBL.GetLesson(lessonID);
-                lesson.StartHour = lessonEdit.StartHour;
-                lesson.EndHour = lessonEdit.EndHour;
-
-                // Can we refactor those tests?
-                if (DateTime.Compare(lesson.StartHour, lesson.EndHour) > 0)
+                Person user = ConnexionService.GetSession();
+                if (user != null && user is Instructor)
                 {
-                    TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
-                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
-                }
+                    lessonEdit.StartHour = lessonBL.HarmonizeDatetime(lessonEdit.StartHour);
+                    lessonEdit.EndHour = lessonBL.HarmonizeDatetime(lessonEdit.EndHour);
+                    Lesson lesson = lessonBL.GetLesson(lessonID);
+                    lesson.StartHour = lessonEdit.StartHour;
+                    lesson.EndHour = lessonEdit.EndHour;
+                    // todo check if instructor id == lesson.instructor id
+                    // Can we refactor those tests?
+                    if (DateTime.Compare(lesson.StartHour, lesson.EndHour) > 0)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
+                        return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                    }
 
-                if (lesson.StartHour.Hour < 8 || lesson.StartHour.Hour > 18)
+                    if (lesson.StartHour.Hour < 8 || lesson.StartHour.Hour > 18)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
+                        return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                    }
+
+                    if (lesson.EndHour.Hour < 9 || lesson.EndHour.Hour > 19)
+                    {
+                        TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
+                        return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                    }
+
+
+                    if (!lessonBL.IsPlanningEditValid(lesson))
+                    {
+                        TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR}  {TimeService.GetHourFromDate(lessonEdit.StartHour)} h and {TimeService.GetHourFromDate(lessonEdit.EndHour)} h {lessonEdit.Day}";
+                        return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                    }
+                    lessonBL.EditLesson(lesson, lessonEdit);
+
+                    return RedirectToAction("Index");
+                }
+                else
                 {
-                    TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
-                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+
                 }
-
-                if (lesson.EndHour.Hour < 9 || lesson.EndHour.Hour > 19)
-                {
-                    TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
-                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
-                }
-
-
-                if (!lessonBL.IsPlanningEditValid(lesson))
-                {
-                    TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR}  {TimeService.GetHourFromDate(lessonEdit.StartHour)} h and {TimeService.GetHourFromDate(lessonEdit.EndHour)} h {lessonEdit.Day}";
-                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
-                }
-                lessonBL.EditLesson(lesson, lessonEdit);
-
-                return RedirectToAction("Index");
             }
 
             return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });

@@ -7,6 +7,7 @@ using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Enumeration;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using ContosoUniversity.ViewModels;
 
 
@@ -20,15 +21,17 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
-            if (true)
+            Person user = ConnexionService.GetSession();
+            if (user == null)
             {
-                // Temporary the ID is set manually
-                // waiting to Session["User"].ID applied everywhere
+                return View();
+            }
+            else if (user is Instructor)
+            {
 
                 WeeklyScheduleVM weeklySchedule = new WeeklyScheduleVM();
-                weeklySchedule.Agenda = scheduleBL.GetWeeklyScheduleInstructor(10);
-                weeklySchedule.UserName = lessonBL.GetInstructor(10).FullName;
-                ViewBag.Lessons = scheduleBL.GetWeeklyScheduleInstructor(10);
+                weeklySchedule.Agenda = scheduleBL.GetWeeklyScheduleInstructor(user.ID);
+                weeklySchedule.UserName = user.FullName;
                 return View("IndexInstructor", weeklySchedule);
             }
             return View();
