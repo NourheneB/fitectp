@@ -13,8 +13,9 @@ using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
-    public class CourseController : FatherOfControllers
+    public class CourseController : Controller
     {
+        SchoolContext db = new SchoolContext();
         // GET: Course
         public ActionResult Index(int? SelectedDepartment)
         {

@@ -14,8 +14,10 @@ using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
-    public class InstructorController : FatherOfControllers
+    public class InstructorController : Controller
     {
+        SchoolContext db = new SchoolContext();
+
         // GET: Instructor
         public ActionResult Index(int? id, int? courseID)
         {

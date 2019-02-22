@@ -1,20 +1,12 @@
 ﻿using ContosoUniversity.Business;
 using ContosoUniversity.Controllers.Api;
-using ContosoUniversity.DAL;
 using ContosoUniversity.DTOModels;
 using ContosoUniversity.Models;
 using ContosoUniversity.Services;
 using ContosoUniversity.Tests.Tools;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
-using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace ContosoUniversity.Tests.Controllers
 {

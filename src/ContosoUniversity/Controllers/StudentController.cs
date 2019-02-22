@@ -11,8 +11,10 @@ using System.Web.Mvc;
 
 namespace ContosoUniversity.Controllers
 {
-    public class StudentController : FatherOfControllers
+    public class StudentController : Controller
     {
+        SchoolContext db = new SchoolContext();
+
         // GET: Student
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {

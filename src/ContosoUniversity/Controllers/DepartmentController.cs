@@ -14,8 +14,9 @@ using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
-    public class DepartmentController : FatherOfControllers
+    public class DepartmentController : Controller
     {
+        SchoolContext db = new SchoolContext();
         // GET: Department
         public async Task<ActionResult> Index()
         {
