@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
+using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using ContosoUniversity.ViewModels;
 
 
@@ -16,6 +18,11 @@ namespace ContosoUniversity.Controllers
 
         public ActionResult Index()
         {
+            Person user = ConnexionService.GetSession();
+            if(user!=null)
+            {
+                ViewBag.Message = "Welcome " + user.Login;
+            }
             return View();
         }
 

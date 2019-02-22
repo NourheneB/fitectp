@@ -1,6 +1,7 @@
 ﻿using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.Services;
 using ContosoUniversity.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -60,29 +61,33 @@ namespace ContosoUniversity.Controllers
             AuthenticationBusiness userBL = new AuthenticationBusiness();
             Person user = userBL.LoginPerson(model);
 
-
-            if (user != null && user is Student)
+            if (user != null)
             {
-                Session["User"] = user;
-                Session["UserID"] = user.ID;
-                return RedirectToAction("Details", "Student", new { id = user.ID });
+                ConnexionService.SetSession(user);
+                TempData["LoginMessage"] = "Welcome " + model.Login;
+                if (user is Student)
+                {
+                    return RedirectToAction("Index", "Student");
+                }
+                else if(user is Instructor)
+                {
+                    return RedirectToAction("Index", "Instructor");
+                }
             }
-            else if (user != null && user is Instructor)
-            {
-                Session["User"] = user;
-                Session["UserID"] = user.ID;
-                return RedirectToAction("Details", "Instructor", new { id = user.ID });
-            }
+       
             else
             {
                 ModelState.AddModelError("", "Invalid login or password");
                 return View();
-            }    
+            }
+
+            return View();
+
         }
 
         public ActionResult Logout()
         {
-            Session["User"] = null;
+            ConnexionService.EmptySession();
             return RedirectToAction("Index", "Home");
         }
     }
