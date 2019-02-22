@@ -2,8 +2,16 @@
     ViewBag.Title = "Home Page";
 }
 
+
 <div class="jumbotron">
+    <p>
+        @if (ViewBag.Message != null)
+        {
+        <p>@ViewBag.Message</p>
+    }
+    </p>
     <h1>Contoso University</h1>
+
 </div>
 <div class="row">
     <div class="col-md-4">
