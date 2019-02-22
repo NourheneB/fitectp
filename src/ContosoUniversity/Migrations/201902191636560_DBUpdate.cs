@@ -39,7 +39,7 @@ namespace ContosoUniversity.Migrations
                 .Index(t => t.CourseID);
             
             AddColumn("dbo.Person", "Login", c => c.String(nullable: false));
-            AddColumn("dbo.Person", "Password", c => c.String(nullable: false, maxLength: 64));
+            AddColumn("dbo.Person", "Password", c => c.String(nullable: false));
         }
         
         public override void Down()
