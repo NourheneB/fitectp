@@ -10,13 +10,13 @@ using System.Web.Mvc;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
 using System.Data.Entity.Infrastructure;
+using ContosoUniversity.Business;
 
 namespace ContosoUniversity.Controllers
 {
     public class DepartmentController : Controller
     {
-        private SchoolContext db = new SchoolContext();
-
+        SchoolContext db = new SchoolContext();
         // GET: Department
         public async Task<ActionResult> Index()
         {

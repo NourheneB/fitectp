@@ -40,7 +40,7 @@ namespace ContosoUniversity.Controllers
                     AuthenticationBusiness student = new AuthenticationBusiness();
                     student.CreateNewStudent(model);
                     ViewBag.MessageSuccess = "Registration successful !";
-                    return View(model);
+                    return RedirectToAction("Login");
                 }
 
                 else if (user.UsernameIsAvailable(model.Login) == true && model.Role == "Instructor")
@@ -48,7 +48,7 @@ namespace ContosoUniversity.Controllers
                     AuthenticationBusiness instructor = new AuthenticationBusiness();
                     instructor.CreateNewInstructor(model);
                     ViewBag.MessageSuccess = "Registration successful !";
-                    return View(model);
+                    return RedirectToAction("Login");
                 }
             }
 
@@ -78,30 +78,27 @@ namespace ContosoUniversity.Controllers
 
             if (user != null && user is Student)
             {
-                Session["UserID"] = user;
-                TempData["LoginMessage"] = "Welcome " + model.Login;
-                return RedirectToAction("Index","Student" );
+                Session["User"] = user;
+                Session["UserID"] = user.ID;
+                return RedirectToAction("Details", "Student", new { id = user.ID });
             }
             else if (user != null && user is Instructor)
             {
-                Session["UserID"] = user;
-                TempData["LoginMessage"] = "Welcome " + model.Login;
-                return RedirectToAction("Index","Instructor");
+                Session["User"] = user;
+                Session["UserID"] = user.ID;
+                return RedirectToAction("Details", "Instructor", new { id = user.ID });
             }
             else
             {
-                ViewBag.Message = "Invalid login or password";
+                ModelState.AddModelError("", "Invalid login or password");
                 return View();
-            }
-           
-            
+            }    
         }
 
         public ActionResult Logout()
-
         {
-            Session["UserID"] = null;
-            return RedirectToAction("Home","Index");
+            Session["User"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

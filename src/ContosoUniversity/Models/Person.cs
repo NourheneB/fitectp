@@ -32,7 +32,6 @@ namespace ContosoUniversity.Models
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Password is Required"), DataType(DataType.Password)]
-        [StringLength(64)]
         public string Password { get; set; }
 
         public virtual ICollection<File> Files { get; set; }

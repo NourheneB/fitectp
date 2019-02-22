@@ -1,7 +1,10 @@
 ﻿using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
+using ContosoUniversity.Business;
+using ContosoUniversity.ViewModels;
 using PagedList;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -78,11 +81,46 @@ namespace ContosoUniversity.Controllers
             {
                 return HttpNotFound();
             }
-            return View(student);
+
+            Dictionary<int, string> enrollmentsData = new Dictionary<int, string>();
+            foreach(Enrollment e in student.Enrollments) enrollmentsData.Add(e.CourseID, e.Course.Title);
+
+            Dictionary<int, string> coursesData = new Dictionary<int, string>();
+            foreach (Course c in db.Courses) coursesData.Add(c.CourseID, c.Title);
+
+            StudentDetailsData studentDetails = new StudentDetailsData()
+            {
+                ID = student.ID,
+                LastName = student.LastName,
+                FirstMidName = student.FirstMidName,
+                EnrollmentDate = student.EnrollmentDate,
+                Enrollments = enrollmentsData,
+                Courses = coursesData
+            };
+
+            TempData["StudentID"] = student.ID;
+
+            return View(studentDetails);
         }
 
-        // GET: Student/Create
-        public ActionResult Create()
+        public ActionResult Subscribe(int id)
+        {
+            int studentID = (int)TempData["StudentID"];
+            Enrollment enrollementFind = db.Enrollments.FirstOrDefault(e => e.StudentID == studentID && e.CourseID == id);
+
+            if (enrollementFind == null)
+            {
+                db.Enrollments.Add(new Enrollment { CourseID = id, StudentID = studentID });
+                db.SaveChanges();
+            }
+            
+            TempData["StudentID"] = TempData["StudentID"];
+
+            return RedirectToAction("Details", new { controller = "Student", action = "Details", id = studentID });
+        }
+
+            // GET: Student/Create
+            public ActionResult Create()
         {
             return View();
         }

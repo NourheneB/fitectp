@@ -22,3 +22,37 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#SignIn {
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+
+    #SignIn a {
+        color: black;
+        text-decoration: none;
+    }
+
+#Register {
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+
+    #Register a {
+        color: black;
+        text-decoration: none;
+    }
+
+#SignOut {
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+
+    #SignOut a {
+        color: black;
+        text-decoration: none;
+    }
+
