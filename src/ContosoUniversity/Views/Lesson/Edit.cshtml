@@ -4,15 +4,19 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Lesson - Course @Model.Course.Title</h2>
 
 
-@using (Html.BeginForm("Edit","Lesson", new { courseId = @Model.Course.CourseID, instructorId = Model.Instructor.ID, lessonId = Model.LessonId }, FormMethod.Post, null))
+@using (Html.BeginForm("Edit", "Lesson", new { courseId = @Model.Course.CourseID, instructorId = Model.Instructor.ID, lessonId = Model.LessonId }, FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>LessonEditVM</h4>
+    @if (TempData["CreateError"] != null)
+    {
+        <p class="text-danger"> @TempData["CreateError"] </p>
+    }
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 

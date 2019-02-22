@@ -12,6 +12,7 @@ using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using ContosoUniversity.Enumeration;
 using ContosoUniversity.Services;
+using ContosoUniversity.Constants;
 
 namespace ContosoUniversity.Controllers
 {
@@ -52,19 +53,19 @@ namespace ContosoUniversity.Controllers
                 // Check endhour > starthour
                 if (DateTime.Compare(StartHour, EndHour) > 0)
                 {
-                    TempData["CreateError"] = "Endhour must be after StartHour";
+                    TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
                     return RedirectToAction(nameof(LessonController.Create), "Lesson");
                 }
 
                 if(StartHour.Hour < 8 || StartHour.Hour > 18)
                 {
-                    TempData["CreateError"] = "StartHour must be between 8:00 and 18:00";
+                    TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
                     return RedirectToAction(nameof(LessonController.Create), "Lesson");
                 }
 
                 if (EndHour.Hour < 9 || EndHour.Hour > 19)
                 {
-                    TempData["CreateError"] = "EndHour must be between 9:00 and 19:00";
+                    TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
                     return RedirectToAction(nameof(LessonController.Create), "Lesson");
                 }
 
@@ -72,7 +73,7 @@ namespace ContosoUniversity.Controllers
                 // vérification d'agenda
                 if (!lessonBL.IsPlanningCreationValid(lesson))
                 {
-                    TempData["CreateError"] = $"You have already a course between {TimeService.GetHourFromDate(StartHour)} h and {TimeService.GetHourFromDate(EndHour)} h {Day}";
+                    TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR} {TimeService.GetHourFromDate(StartHour)} h and {TimeService.GetHourFromDate(EndHour)} h {Day}";
                     return RedirectToAction(nameof(LessonController.Create), "Lesson");
                 }
 
@@ -140,18 +141,43 @@ namespace ContosoUniversity.Controllers
 
             if (ModelState.IsValid)
             {
+                lessonEdit.StartHour = lessonBL.HarmonizeDatetime(lessonEdit.StartHour);
+                lessonEdit.EndHour = lessonBL.HarmonizeDatetime(lessonEdit.EndHour);
                 Lesson lesson = lessonBL.GetLesson(lessonID);
-                lesson.StartHour = lessonBL.HarmonizeDatetime(lessonEdit.StartHour);
-                lesson.EndHour = lessonBL.HarmonizeDatetime(lessonEdit.EndHour);
-                if (lessonBL.IsPlanningEditValid(lesson))
+                lesson.StartHour = lessonEdit.StartHour;
+                lesson.EndHour = lessonEdit.EndHour;
+
+                // Check endhour > starthour
+                if (DateTime.Compare(lesson.StartHour, lesson.EndHour) > 0)
                 {
-                    lessonBL.EditLesson(lesson, lessonEdit);
+                    TempData["CreateError"] = LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR;
+                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
                 }
+
+                if (lesson.StartHour.Hour < 8 || lesson.StartHour.Hour > 18)
+                {
+                    TempData["CreateError"] = LessonConstants.ERROR_STARTHOUR;
+                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                }
+
+                if (lesson.EndHour.Hour < 9 || lesson.EndHour.Hour > 19)
+                {
+                    TempData["CreateError"] = LessonConstants.ERROR_ENDHOUR;
+                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                }
+
+
+                if (!lessonBL.IsPlanningEditValid(lesson))
+                {
+                    TempData["CreateError"] = $"{LessonConstants.ERRORS_STARTHOUR_AFTER_ENDHOUR}  {TimeService.GetHourFromDate(lessonEdit.StartHour)} h and {TimeService.GetHourFromDate(lessonEdit.EndHour)} h {lessonEdit.Day}";
+                    return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
+                }
+                lessonBL.EditLesson(lesson, lessonEdit);
 
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Edit", new { id = lessonID });
+            return RedirectToAction(nameof(LessonController.Edit), "Lesson", new { id = lessonID });
         }
 
         // GET: Lessons/Delete/5
@@ -161,7 +187,7 @@ namespace ContosoUniversity.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Lesson lesson = db.Lessons.Find(id);
+            Lesson lesson = lessonBL.GetLesson(id);
             if (lesson == null)
             {
                 return HttpNotFound();
@@ -174,9 +200,9 @@ namespace ContosoUniversity.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Lesson lesson = db.Lessons.Find(id);
-            db.Lessons.Remove(lesson);
-            db.SaveChanges();
+            Lesson lesson = lessonBL.GetLesson(id);
+            lessonBL.DeleteLesson(lesson);
+
             return RedirectToAction("Index");
         }
 

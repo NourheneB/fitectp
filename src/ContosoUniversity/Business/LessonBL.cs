@@ -62,6 +62,15 @@ namespace ContosoUniversity.Business
             }
         }
 
+        public void DeleteLesson(Lesson lesson)
+        {
+            using (this.db)
+            {
+                db.Lessons.Remove(lesson);
+                db.SaveChanges();
+            }
+        }
+
         public bool IsPlanningCreationValid(Lesson lesson)
         {
             int count = db.Lessons.Where(l => l.InstructorID == lesson.InstructorID)
