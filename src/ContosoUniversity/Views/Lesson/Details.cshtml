@@ -1,17 +1,10 @@
 ﻿@model ContosoUniversity.Models.Lesson
 
 @{
-    Layout = null;
+    ViewBag.Title = "Details Lesson";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
     <div>
         <h4>Lesson</h4>
         <hr />
@@ -70,5 +63,3 @@
         @Html.ActionLink("Edit", "Edit", new { id = Model.LessonID }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
-</body>
-</html>

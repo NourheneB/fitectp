@@ -1,22 +1,24 @@
 ﻿using ContosoUniversity.Enumeration;
+using ContosoUniversity.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ContosoUniversity.Models
+namespace ContosoUniversity.ViewModels
 {
-    public class Lesson
+    public class LessonEditVM
     {
-        [Required]
-        public int LessonID { get; set; }
+      
+        public Course Course { get; set; }
+
+        public Instructor Instructor { get; set; }
+
+        public int LessonId { get; set; }
 
         [Required]
-        public int InstructorID { get; set; }
-
-        [Required]
-        public int CourseID { get; set; }
+        public CourseDay Day { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
@@ -25,25 +27,14 @@ namespace ContosoUniversity.Models
 
         [Required]
         [DataType(DataType.Time)]
+
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         public DateTime EndHour { get; set; }
 
-        public decimal Duration
-        {
-            get
-            {
-                return (EndHour.Hour - StartHour.Hour);
-            }
-        }
-
         [Required]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Start Date")]
         public DateTime DateStart { get; set; }
-
-        [Required]
-        public CourseDay Day { get; set; }
-
-        public virtual Instructor Instructor { get; set; }
-        public virtual Course Course { get; set; }
     }
 }
