@@ -51,28 +51,28 @@
                     {
                         classValue = "success";
                     }
-                <tr class="@classValue">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value)
-                    </td>
-                    @{
-                        bool find = false;
-                        if (Model.Enrollments.ContainsKey(item.Key))
-                        {
-                            find = true;
+                    <tr class="@classValue">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                        @{
+                            bool find = false;
+                            if (Model.Enrollments.ContainsKey(item.Key))
+                            {
+                                find = true;
+                            }
+                            if (!find)
+                            {
+                                <td>
+                                    @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.Key }, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
                         }
-                        if (!find)
-                        {
-                            <td>
-                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.Key}, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
-                            </td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
-                    }
-                </tr>
+                    </tr>
                 }
             </table>
         </dd>
@@ -95,7 +95,9 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-@section Scripts
-    {
-    
+@if (TempData["Error"] != null)
+{
+    <div class="alert-danger">
+        <strong> @TempData["Error"] </strong>
+    </div>
 }

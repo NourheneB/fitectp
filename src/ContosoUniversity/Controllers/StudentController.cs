@@ -106,14 +106,19 @@ namespace ContosoUniversity.Controllers
         public ActionResult Subscribe(int id)
         {
             int studentID = (int)TempData["StudentID"];
-            Enrollment enrollementFind = db.Enrollments.FirstOrDefault(e => e.StudentID == studentID && e.CourseID == id);
 
-            if (enrollementFind == null)
+            if(StudentEnrollmentBL.CourseExists(id)&&StudentEnrollmentBL.CanStudentSubscribe(studentID,id))
             {
-                db.Enrollments.Add(new Enrollment { CourseID = id, StudentID = studentID });
-                db.SaveChanges();
+                StudentEnrollmentBL.Subscribe(studentID, id);
             }
-            
+            else if(StudentEnrollmentBL.CourseExists(id) && !StudentEnrollmentBL.CanStudentSubscribe(studentID, id))
+            {
+                TempData["Error"] = "You already subscribed to this course";
+            }
+            else 
+            {
+                TempData["Error"] = "This course doesn't exist";
+            }            
             TempData["StudentID"] = TempData["StudentID"];
 
             return RedirectToAction("Details", new { controller = "Student", action = "Details", id = studentID });

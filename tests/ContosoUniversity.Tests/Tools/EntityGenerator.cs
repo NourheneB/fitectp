@@ -27,5 +27,33 @@ namespace ContosoUniversity.Tests.Tools
             DBUtils.db.SaveChanges();
             return student;
         }
+
+        public Course CreateCourse(string title)
+        {
+            Course course = new Course()
+            {
+                Title = title,
+                DepartmentID = 1000,
+                Department = new Department(),
+                
+            };
+            DBUtils.db.Courses.Add(course);
+            DBUtils.db.SaveChanges();
+            
+            return course;
+        }
+
+        public Enrollment CreateEnrollment(Student student, Course course)
+        {
+            var enrollment = new Enrollment()
+            {
+                CourseID=course.CourseID,
+                StudentID=student.ID
+            };
+            DBUtils.db.Enrollments.Add(enrollment);
+            DBUtils.db.SaveChanges();
+
+            return enrollment;
+        }
     }
 }
