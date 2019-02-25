@@ -11,7 +11,7 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal" id="Form">
         <h4>Creation Lesson</h4>
         @if (TempData["CreateError"] != null)
         {
@@ -49,6 +49,9 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndHour, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndHour, "", new { @class = "text-danger" })
+                <div class="alert-danger MessageError">
+                    <strong> <span id="message1"> </span> </strong>
+                </div>
             </div>
         </div>
 
@@ -57,12 +60,15 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateStart, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateStart, "", new { @class = "text-danger" })
+                <div class="alert-danger MessageError">
+                    <strong> <span id="message2"> </span> </strong>
+                </div>
+                </div>
             </div>
-        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" id="CreateButton" />
             </div>
         </div>
     </div>
@@ -71,4 +77,37 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#CreateButton").click(function (event) {
+                var startHour = parseInt(($("#StartHour").val()).replace(":", ""));
+                var endHour = parseInt(($("#EndHour").val()).replace(":", ""));
+                var day = parseInt($("#Day").val());
+                var startDate = (new Date(($("#DateStart").val())).getDay());
+
+                if (startHour >= endHour) {
+                    var message = $("#message1");
+                    message.css("color", "red");
+                    message.html("Be careful, there is a concordance issue between the start hour and the end hour");
+                    event.preventDefault();
+                }
+                else {
+                    $("#message1").empty();
+                }
+
+                if (startDate != (day + 1)) {
+                    var message = $("#message2");
+                    message.css("color", "red");
+                    message.html("Be careful, there is a concordance issue between the selected day and the start day");
+                    event.preventDefault();
+                }
+                else {
+                    $("#message2").empty();
+                }
+            })
+        })
+    </script>
+}
 
