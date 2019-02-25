@@ -39,13 +39,9 @@
                     <li>@Html.ActionLink("Departments", "Index", "Department")</li>
                 </ul>
 
-                <button type="button" class="btn btn-light pull-right" id="Register">
-                    <span class="glyphicon glyphicon-user"> </span>  @Html.ActionLink("Register", "Register", "Account")
-                </button>
-
                 @if (Session["User"] != null)
                 {
-                    <button type = "button" class="btn btn-light pull-right" id="SignOut">
+                    <button type="button" class="btn btn-light pull-right" id="SignOut">
                         <span class="glyphicon glyphicon-log-out"> </span> @Html.ActionLink("Sign Out", "Logout", "Account")
                     </button>
                 }
@@ -53,6 +49,10 @@
                 {
                     <button type="button" class="btn btn-light pull-right" id="SignIn">
                         <span class="glyphicon glyphicon-log-in"> </span> @Html.ActionLink("Sign In", "Login", "Account")
+                    </button>
+
+                    <button type="button" class="btn btn-light pull-right" id="Register">
+                        <span class="glyphicon glyphicon-user"> </span>  @Html.ActionLink("Register", "Register", "Account")
                     </button>
                 }
 
