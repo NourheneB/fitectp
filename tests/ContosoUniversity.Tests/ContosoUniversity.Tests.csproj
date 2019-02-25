@@ -199,7 +199,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\StudentApiStudentTests.cs" />
+    <Compile Include="Controllers\InstructorApiControllerTests.cs" />
+    <Compile Include="Controllers\StudentApiControllerTests.cs" />
     <Compile Include="Controllers\StudentControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\EntityGenerator.cs" />
