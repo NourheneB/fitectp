@@ -206,6 +206,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\InstructorApiControllerTests.cs" />
+    <Compile Include="Controllers\StudentApiControllerTests.cs" />
     <Compile Include="Business\AuthenticationBusinessTests.cs" />
     <Compile Include="Controllers\AccountControllerTests.cs" />
     <Compile Include="Controllers\StudentApiStudentTests.cs" />

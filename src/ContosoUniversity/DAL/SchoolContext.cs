@@ -35,5 +35,7 @@ namespace ContosoUniversity.DAL
 
             modelBuilder.Entity<Department>().MapToStoredProcedures();
         }
+
+        public DbSet<Lesson> Lessons { get; set; }
     }
 }

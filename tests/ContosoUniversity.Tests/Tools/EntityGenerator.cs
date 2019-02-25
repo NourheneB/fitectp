@@ -115,5 +115,21 @@ namespace ContosoUniversity.Tests.Tools
 
             return department;
         }
+
+        public Instructor CreateInstructor(string lastname, string firstname, string login, string password)
+        {
+            var instructor = new Instructor()
+            {
+                LastName = lastname,
+                FirstMidName = firstname,
+                Login = login,
+                Password = password,
+                HireDate = DateTime.Now,
+            };
+
+            DBUtils.db.Instructors.Add(instructor);
+            DBUtils.db.SaveChanges();
+            return instructor;
+        }
     }
 }
