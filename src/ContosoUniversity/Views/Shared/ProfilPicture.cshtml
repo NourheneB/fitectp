@@ -1,0 +1,12 @@
+﻿@model ContosoUniversity.Models.Person
+
+<div class="media">
+    @if (Model.Files.FirstOrDefault(f => f.PersonID == Model.ID) == null)
+    {
+        <img class="img-circle img-responsive" src="~/Data/ProfilPictures/no-profile.jpeg">
+    }
+    else
+    {
+        <img class="img-circle img-responsive" src="@Model.Files.FirstOrDefault(f => f.PersonID == Model.ID).Path@Model.Files.FirstOrDefault(f => f.PersonID == Model.ID).Libelle?r=@DateTime.Now.ToString()">
+    }
+</div>
