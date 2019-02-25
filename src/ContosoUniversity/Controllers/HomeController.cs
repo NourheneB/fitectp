@@ -18,12 +18,16 @@ namespace ContosoUniversity.Controllers
         SchoolContext db = new SchoolContext();
         ScheduleBL scheduleBL = new ScheduleBL();
         LessonBL lessonBL = new LessonBL();
+        CourseBL courseBL = new CourseBL();
 
         public ActionResult Index()
         {
             Person user = ConnexionService.GetSession();
             if (user == null)
             {
+
+                ViewBag.CoursesNotLaunched = courseBL.GetNotLaunchedCourses();
+                ViewBag.CoursesLaunched = courseBL.GetLaunchedCourses();
                 return View();
             }
             else if (user is Instructor)
