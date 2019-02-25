@@ -21,6 +21,7 @@ namespace ContosoUniversity.Tests.Tools
                 Login = login,
                 Password = password,
                 EnrollmentDate = DateTime.Now,
+                Enrollments = new List<Enrollment>()
             };
 
             DBUtils.db.Students.Add(student);
@@ -33,7 +34,6 @@ namespace ContosoUniversity.Tests.Tools
             Course course = new Course()
             {
                 Title = title,
-                DepartmentID = 1000,
                 Department = new Department(),
                 
             };
@@ -54,6 +54,22 @@ namespace ContosoUniversity.Tests.Tools
             DBUtils.db.SaveChanges();
 
             return enrollment;
+        }
+
+        public Department CreateDepartment(string name)
+        {
+           Department department = new Department()
+            {
+                Name=name,
+                Budget=1000,
+                StartDate=DateTime.Now,
+                Administrator=new Instructor()
+
+            };
+            DBUtils.db.Departments.Add(department);
+            DBUtils.db.SaveChanges();
+
+            return department;
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Linq;
+using ContosoUniversity.ViewModels;
 
 namespace ContosoUniversity.Tests.Controllers
 {
@@ -26,7 +27,7 @@ namespace ContosoUniversity.Tests.Controllers
             generator = new EntityGenerator();
             controllerToTest = new StudentController();
             controllerToTest.DbContext = DBUtils.db;
-            //controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
+            controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
         }
 
         [TearDown]
@@ -47,7 +48,7 @@ namespace ContosoUniversity.Tests.Controllers
             Student student = generator.CreateStudent(expectedLastName, expectedFirstName, login, password);
 
             var result = controllerToTest.Details(student.ID) as ViewResult;
-            var resultModel = result.Model as Student;
+            var resultModel = result.Model as StudentDetailsData;
 
             Assert.That(result, Is.Not.Null);
             Assert.That(resultModel, Is.Not.Null);
@@ -144,23 +145,23 @@ namespace ContosoUniversity.Tests.Controllers
             Assert.NotNull(enrollmentexist);
         }
 
-        [Test]
-        public void Subscribe_StudentNotAlreadySubscribed_StudentCanSubribe()
-        {
-            //Arrange
-            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
-            Course course = generator.CreateCourse(testcourse);
-            Mock<StudentEnrollmentBL> mockedService = new Mock<StudentEnrollmentBL>();
-            mockedService.Setup(m => m.CourseExists(course.CourseID)).Return(true);
+        //[Test]
+        //public void Subscribe_StudentNotAlreadySubscribed_StudentCanSubribe()
+        //{
+        //    //Arrange
+        //    Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
+        //    Course course = generator.CreateCourse(testcourse);
+        //    Mock<StudentEnrollmentBL> mockedService = new Mock<StudentEnrollmentBL>();
+        //    mockedService.Setup(m => m.CourseExists(course.CourseID)).Return(true);
 
-            //Act & Assert
-            this.controllerToTest.Subscribe = new controllerToTest.Subscribe(this.mockedService.Object);
+        //    //Act & Assert
+        //    this.controllerToTest.Subscribe = new controllerToTest.Subscribe(this.mockedService.Object);
 
-            var result = controllerToTest.Subscribe(course.CourseID) as RedirectToRouteResult;
-            //TempDataNull
-            Assert.AreEqual("Details", result.RouteValues["action"]);
-            Assert.AreEqual("Student", result.RouteValues["controller"]);
-        }
+        //    var result = controllerToTest.Subscribe(course.CourseID) as RedirectToRouteResult;
+        //    //TempDataNull
+        //    Assert.AreEqual("Details", result.RouteValues["action"]);
+        //    Assert.AreEqual("Student", result.RouteValues["controller"]);
+        //}
 
         //[Test]
         //public void Subscribe_StudentAlreadySubscribed_Error()
