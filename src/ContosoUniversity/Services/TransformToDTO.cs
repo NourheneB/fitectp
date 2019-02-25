@@ -59,7 +59,7 @@ namespace ContosoUniversity.Services
                     LessonDTO lessonDTO = new LessonDTO();
                     lessonDTO.courseId = lesson.CourseID;
                     lessonDTO.day = lesson.Day.ToString().ToLower();
-                    lessonDTO.startHour = lesson.StartHour.Hour.ToString("00") + "h" + lesson.StartHour.Minute.ToString("00");
+                    lessonDTO.startHour = lesson.StartHour.ToString("HH'h'mm");
                     lessonDTO.duration = lesson.EndHour.Subtract(lesson.StartHour).TotalMinutes.ToString() ;
                     lessonsDTO.Add(lessonDTO);
                 }
