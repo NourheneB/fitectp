@@ -19,7 +19,7 @@ namespace ContosoUniversity.Business
             get { return db; }
             set { db = value; }
         }
-        public void CreateNewStudent(PersonVM model)
+        public Person CreateNewStudent(PersonVM model)
         {
             Student newStudent = new Student
             {
@@ -32,6 +32,7 @@ namespace ContosoUniversity.Business
 
             db.Students.Add(newStudent);
             db.SaveChanges();
+            return newStudent;
         }
         public void CreateNewInstructor(PersonVM model)
         {

@@ -64,7 +64,7 @@
                         if (!find)
                         {
                             <td>
-                                @Html.ActionLink("Subscribe at this course", "Subscribe", new { id = item.Key}, new { onclick = "return confirm('Are you sure you want to subscribe at this course ?');" })
+                                @Html.ActionLink("Subscribe to this course", "Subscribe", new { id = item.Key}, new { onclick = "return confirm('Are you sure you want to subscribe to this course ?');" })
                             </td>
                         }
                         else
@@ -80,13 +80,13 @@
         </dt>
         <dd>
             <img src="~/Data/Image/SubscribeCourse.png" style="margin-bottom: 2pt" />
-            <span>Course already subscribe</span>
+            <span>Course you've already subscribed to</span>
         </dd>
         <dt>
         </dt>
         <dd>
             <img src="~/Data/Image/Non-SubscribeCourse.png" />
-            <span>Course you can subscribe</span>
+            <span>Course you can subscribe to</span>
         </dd>
     </dl>
 </div>

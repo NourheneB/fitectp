@@ -199,6 +199,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountControllerTests.cs" />
     <Compile Include="Controllers\StudentApiStudentTests.cs" />
     <Compile Include="Controllers\StudentControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

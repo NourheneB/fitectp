@@ -50,6 +50,8 @@ namespace ContosoUniversity.Controllers
             return View();
         }
 
+        public SchoolContext DbContext { get; set; }
+
         public ActionResult Login()
         {
             return View();
