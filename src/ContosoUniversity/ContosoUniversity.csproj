@@ -173,6 +173,7 @@
     <Compile Include="DTOModels\LessonDTO.cs" />
     <Compile Include="DTOModels\StudentDTO.cs" />
     <Compile Include="Enumeration\CourseDay.cs" />
+    <Compile Include="Filter\AuthFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -348,6 +349,11 @@
     <Content Include="Views\Lesson\Index.cshtml" />
     <Content Include="Views\Home\IndexInstructor.cshtml" />
     <Content Include="Views\Shared\ProfilPicture.cshtml" />
+    <Content Include="Views\Shared\_InstructorNav.cshtml" />
+    <Content Include="Views\Shared\_LoginRegisterNav.cshtml" />
+    <Content Include="Views\Shared\_StudentNav.cshtml" />
+    <Content Include="Views\Shared\_LogoutNav.cshtml" />
+    <Content Include="Views\Home\IndexStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

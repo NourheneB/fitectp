@@ -38,7 +38,11 @@ namespace ContosoUniversity.Controllers
                 weeklySchedule.UserName = user.FullName;
                 return View("IndexInstructor", weeklySchedule);
             }
-            return View();
+            else if(user is Student)
+            {
+                return View("IndexStudent");
+            }
+            return View("IndexStudent");
         }
 
         public ActionResult About()

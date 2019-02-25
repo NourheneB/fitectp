@@ -13,9 +13,11 @@ using ContosoUniversity.ViewModels;
 using ContosoUniversity.Enumeration;
 using ContosoUniversity.Services;
 using ContosoUniversity.Constants;
+using ContosoUniversity.Filters;
 
 namespace ContosoUniversity.Controllers
 {
+    [AuthFilter(Role = "Instructor")]
     public class LessonController : Controller
     {
         private SchoolContext db = new SchoolContext();
