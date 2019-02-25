@@ -27,5 +27,21 @@ namespace ContosoUniversity.Tests.Tools
             DBUtils.db.SaveChanges();
             return student;
         }
+
+        public Instructor CreateInstructor(string lastname, string firstname, string login, string password)
+        {
+            var instructor = new Instructor()
+            {
+                LastName = lastname,
+                FirstMidName = firstname,
+                Login = login,
+                Password = password,
+                HireDate = DateTime.Now,
+            };
+
+            DBUtils.db.Instructors.Add(instructor);
+            DBUtils.db.SaveChanges();
+            return instructor;
+        }
     }
 }
