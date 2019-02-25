@@ -1,45 +1,35 @@
-﻿using ContosoUniversity.Controllers;
-using ContosoUniversity.Business;
+﻿using ContosoUniversity.Business;
 using ContosoUniversity.DAL;
 using ContosoUniversity.Models;
 using ContosoUniversity.Tests.Tools;
-using Moq;
-using System.Data.Entity;
 using NUnit.Framework;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ContosoUniversity.ViewModels;
 using System.Linq;
 using ContosoUniversity.Services;
 
 namespace ContosoUniversity.Tests.Business
 {
-   
+
     public class AuthenticationBusinessTests : IntegrationTestsBase
     {
 
         //private MockHttpContextWrapper httpContext;
         private AuthenticationBusiness authenticationBusinessToTest;
-        private SchoolContext dbContext;
+        EntityGenerator generator = new EntityGenerator();
 
         [SetUp]
         public void Initialize()
         {
             // httpContext = new MockHttpContextWrapper();
+            //authenticationBusinessToTest.ControllerContext = new ControllerContext(HttpContent.Context.Object, new RouteData(), authenticationBusinessToTest);
+            DBUtils.db = new DAL.SchoolContext(this.ConnectionString);
             authenticationBusinessToTest = new AuthenticationBusiness();
-            // authenticationBusinessToTest.BusinessContext = new ControllerContext(httpContext.Context.Object, new RouteData(), authenticationBusinessToTest);
-            dbContext = new DAL.SchoolContext(this.ConnectionString);
-            authenticationBusinessToTest.DbContext = dbContext;
+            authenticationBusinessToTest.DbContext = DBUtils.db;
         }
         [TearDown]
         public void CleanUp()
         {
             SettingUpTests();
-            //var studentToRemove = dbContext.Students.FirstOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == "password1");
-            //dbContext.Students.Remove(studentToRemove);
         }
 
         #region CreateUser Tests
@@ -64,10 +54,10 @@ namespace ContosoUniversity.Tests.Business
             string passwordTest = HashService.GenerateSHA256String(modelTest.Password);
             //Act
             authenticationBusinessToTest.CreateNewStudent(modelTest);
-
+            Student student = DBUtils.db.Students.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest);
             //Assert
 
-            Assert.IsNotNull(dbContext.Students.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest));
+            Assert.IsNotNull(student);
         }
 
 
@@ -92,7 +82,7 @@ namespace ContosoUniversity.Tests.Business
             string passwordTest = HashService.GenerateSHA256String(modelTest.Password);
             //Act
             authenticationBusinessToTest.CreateNewInstructor(modelTest);
-            Instructor instructor = dbContext.Instructors.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest);
+            Instructor instructor = DBUtils.db.Instructors.SingleOrDefault(s => s.LastName == "Green" && s.FirstMidName == "Harry" && s.Login == "login1" && s.Password == passwordTest);
             //Assert
 
             Assert.IsNotNull(instructor);
@@ -100,7 +90,7 @@ namespace ContosoUniversity.Tests.Business
         #endregion
 
         #region LoginPerson Tests
-        //Valitation peut se faire peut-etre cote client?
+        //Validation peut se faire peut-etre cote client?
         [Test]
         public void LoginPerson_LoginPasswordFalse_UserNull()
         {
@@ -127,7 +117,6 @@ namespace ContosoUniversity.Tests.Business
                 Password = "password1"
             };
             
-            EntityGenerator generator = new EntityGenerator(dbContext);
             generator.CreatePersonWithLoginAndPassword(modelTest);
 
             //Act

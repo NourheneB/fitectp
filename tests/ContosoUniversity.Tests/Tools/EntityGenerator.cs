@@ -13,7 +13,7 @@ namespace ContosoUniversity.Tests.Tools
 {
     public class EntityGenerator
     {
-       
+
         public Student CreateStudent(string lastname, string firstname, string login, string password)
         {
             var student = new Student()
@@ -42,8 +42,8 @@ namespace ContosoUniversity.Tests.Tools
                 EnrollmentDate = DateTime.Now
             };
 
-            this.dbContext.Students.Add(student);
-            dbContext.SaveChanges();
+            DBUtils.db.Students.Add(student);
+            DBUtils.db.SaveChanges();
             return student;
         }
         public Instructor CreateInstructor(string lastname, string firstname, string login, string password)
@@ -69,11 +69,11 @@ namespace ContosoUniversity.Tests.Tools
             {
                 Title = title,
                 Department = generator.CreateDepartment(name, lastname, firstname, login, password),
-                
+
             };
             DBUtils.db.Courses.Add(course);
             DBUtils.db.SaveChanges();
-            
+
             return course;
         }
 
@@ -81,8 +81,8 @@ namespace ContosoUniversity.Tests.Tools
         {
             var enrollment = new Enrollment()
             {
-                CourseID=course.CourseID,
-                StudentID=student.ID
+                CourseID = course.CourseID,
+                StudentID = student.ID
             };
             DBUtils.db.Enrollments.Add(enrollment);
             DBUtils.db.SaveChanges();
@@ -95,10 +95,10 @@ namespace ContosoUniversity.Tests.Tools
             EntityGenerator generator = new EntityGenerator();
             Department department = new Department()
             {
-                Name=name,
-                Budget=1000,
-                StartDate=DateTime.Now,
-                Administrator=generator.CreateInstructor(lastname, firstname, login,  password)
+                Name = name,
+                Budget = 1000,
+                StartDate = DateTime.Now,
+                Administrator = generator.CreateInstructor(lastname, firstname, login, password)
 
             };
             DBUtils.db.Departments.Add(department);
@@ -107,20 +107,5 @@ namespace ContosoUniversity.Tests.Tools
             return department;
         }
 
-        public Instructor CreateInstructor(string lastname, string firstname, string login, string password)
-        {
-            var instructor = new Instructor()
-            {
-                LastName = lastname,
-                FirstMidName = firstname,
-                Login = login,
-                Password = password,
-                HireDate = DateTime.Now,
-            };
-
-            DBUtils.db.Instructors.Add(instructor);
-            DBUtils.db.SaveChanges();
-            return instructor;
-        }
     }
 }
