@@ -67,11 +67,11 @@ namespace ContosoUniversity.Controllers
                 TempData["LoginMessage"] = "Welcome " + model.Login;
                 if (user is Student)
                 {
-                    return RedirectToAction("Index", "Student");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 else if(user is Instructor)
                 {
-                    return RedirectToAction("Index", "Instructor");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
        

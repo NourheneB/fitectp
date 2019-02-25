@@ -56,3 +56,6 @@ textarea {
         text-decoration: none;
     }
 
+.planning-active {
+    background-color: #b3afd2;
+}
