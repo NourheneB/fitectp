@@ -202,6 +202,12 @@ namespace ContosoUniversity.Controllers
                     PersonID = studentToUpdate.ID,
                 };
 
+                if (db.Files.FirstOrDefault(f => f.PersonID == studentToUpdate.ID) != null)
+                {
+                    Models.File fileExist = db.Files.FirstOrDefault(f => f.PersonID == studentToUpdate.ID);
+                    db.Files.Remove(fileExist);
+                }
+
                 db.Files.Add(profilPicture);
                 fileUpload.SaveAs(filepath);
             }
