@@ -28,6 +28,7 @@ namespace ContosoUniversity.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         public DateTime EndHour { get; set; }
 
+        //TODO : change the type and the calcul (see TransformToDTO service)
         public decimal Duration
         {
             get

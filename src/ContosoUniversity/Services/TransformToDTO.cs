@@ -57,16 +57,16 @@ namespace ContosoUniversity.Services
                 foreach (Lesson lesson in instructor.Lessons)
                 {
                     LessonDTO lessonDTO = new LessonDTO();
-                    lessonDTO.courseID = lesson.CourseID;
-                    lessonDTO.day = lesson.Day;
-                    lessonDTO.startHour = lesson.StartHour;
-                    lessonDTO.duration= lesson.EndHour - lesson.StartHour;
+                    lessonDTO.courseId = lesson.CourseID;
+                    lessonDTO.day = lesson.Day.ToString().ToLower();
+                    lessonDTO.startHour = lesson.StartHour.Hour.ToString("00") + "h" + lesson.StartHour.Minute.ToString("00");
+                    lessonDTO.duration = lesson.EndHour.Subtract(lesson.StartHour).TotalMinutes.ToString() ;
                     lessonsDTO.Add(lessonDTO);
                 }
             }
 
-            instructorDTO.id = instructor.ID;
-            instructorDTO.lessons = lessonsDTO;
+            instructorDTO.instructorId = instructor.ID;
+            instructorDTO.schedule = lessonsDTO;
 
             return instructorDTO;
         }

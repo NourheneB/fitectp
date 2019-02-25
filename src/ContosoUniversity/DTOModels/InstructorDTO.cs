@@ -7,7 +7,7 @@ namespace ContosoUniversity.DTOModels
 {
     public class InstructorDTO
     {
-        public int id { get; set; }
-        public List<LessonDTO> lessons { get; set; }
+        public int instructorId { get; set; }
+        public List<LessonDTO> schedule { get; set; }
     }
 }

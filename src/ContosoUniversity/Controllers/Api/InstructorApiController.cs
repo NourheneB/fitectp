@@ -17,7 +17,7 @@ namespace ContosoUniversity.Controllers.Api
         private InstructorBL instructorBL = new InstructorBL();
         public InstructorBL InstructorBL { get => instructorBL; set => instructorBL = value; }
 
-        [Route("{id}")]
+        [Route("{id}/weeklyschedule")]
         // GET api/<controller>/5
         public IHttpActionResult Get(int id)
         {

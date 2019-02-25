@@ -8,10 +8,10 @@ namespace ContosoUniversity.DTOModels
 {
     public class LessonDTO
     {
-        public int courseID { get; set; }
-        public CourseDay day { get; set; }
-        public DateTime startHour { get; set; }
-        public TimeSpan duration { get; set; }
+        public int courseId { get; set; }
+        public string day { get; set; }
+        public string startHour { get; set; }
+        public string duration { get; set; }
 
     }
 }
