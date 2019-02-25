@@ -28,13 +28,29 @@ namespace ContosoUniversity.Tests.Tools
             DBUtils.db.SaveChanges();
             return student;
         }
-
-        public Course CreateCourse(string title)
+        public Instructor CreateInstructor(string lastname, string firstname, string login, string password)
         {
+            var instructor = new Instructor()
+            {
+                LastName = lastname,
+                FirstMidName = firstname,
+                Login = login,
+                Password = password,
+                HireDate = DateTime.Now,
+            };
+
+            DBUtils.db.Instructors.Add(instructor);
+            DBUtils.db.SaveChanges();
+            return instructor;
+        }
+
+        public Course CreateCourse(string title, string name, string lastname, string firstname, string login, string password)
+        {
+            EntityGenerator generator = new EntityGenerator();
             Course course = new Course()
             {
                 Title = title,
-                Department = new Department(),
+                Department = generator.CreateDepartment(name, lastname, firstname, login, password),
                 
             };
             DBUtils.db.Courses.Add(course);
@@ -56,14 +72,15 @@ namespace ContosoUniversity.Tests.Tools
             return enrollment;
         }
 
-        public Department CreateDepartment(string name)
+        public Department CreateDepartment(string name, string lastname, string firstname, string login, string password)
         {
-           Department department = new Department()
+            EntityGenerator generator = new EntityGenerator();
+            Department department = new Department()
             {
                 Name=name,
                 Budget=1000,
                 StartDate=DateTime.Now,
-                Administrator=new Instructor()
+                Administrator=generator.CreateInstructor(lastname, firstname, login,  password)
 
             };
             DBUtils.db.Departments.Add(department);

@@ -95,16 +95,21 @@ namespace ContosoUniversity.Tests.Controllers
         #region SubscribeToAnEnrollment Tests
 
         //Arrange for all tests
-        string testlastname = "testlastname";
-        string testfirstname = "testfirstname";
-        string testlogin = "testlogin";
-        string testpassword = "testpassword";
-        string testcourse = "testcourse";
+        string testlastnamestudent = "testlastnamestudent";
+        string testfirstnamestudent = "testfirstnamestudent";
+        string testloginstudent = "testloginstudent";
+        string testpasswordstudent = "testpasswordstudent";
+        string testlastnameinstructor = "testlastnameinstructor";
+        string testfirstnameinstructor = "testfirstnameinstructor";
+        string testlogininstructor = "testlogininstructor";
+        string testpasswordinstructor = "testpasswordinstructor";
+        string testcoursetitle = "testcoursetitle";
+        string testdepartmentname = "testdepartmentname";
 
         [Test]
         public void CourseExists_CourseExists_True()
         {
-            Course course = generator.CreateCourse(testcourse);
+            Course course = generator.CreateCourse(testcoursetitle, testdepartmentname, testlastnameinstructor, testfirstnameinstructor, testlogininstructor, testpasswordinstructor);
             var result = StudentEnrollmentBL.CourseExists(course.CourseID);
             Assert.True(result);
         }
@@ -119,8 +124,8 @@ namespace ContosoUniversity.Tests.Controllers
         [Test]
         public void CanStudentSubscribe_Can_True()
         {
-            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
-            Course course = generator.CreateCourse(testcourse);
+            Student student = generator.CreateStudent(testlastnamestudent, testfirstnamestudent, testloginstudent, testpasswordstudent);
+            Course course = generator.CreateCourse(testcoursetitle, testdepartmentname, testlastnameinstructor, testfirstnameinstructor, testlogininstructor, testpasswordinstructor);
             var result = StudentEnrollmentBL.CanStudentSubscribe(student.ID,course.CourseID);
             Assert.True(result);
         }
@@ -128,8 +133,8 @@ namespace ContosoUniversity.Tests.Controllers
         [Test]
         public void CanStudentSubscribe_Cant_False()
         {
-            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
-            Course course = generator.CreateCourse(testcourse);
+            Student student = generator.CreateStudent(testlastnamestudent, testfirstnamestudent, testloginstudent, testpasswordstudent);
+            Course course = generator.CreateCourse(testcoursetitle, testdepartmentname, testlastnameinstructor, testfirstnameinstructor, testlogininstructor, testpasswordinstructor);
             Enrollment enrollment = generator.CreateEnrollment(student, course);
             var result = StudentEnrollmentBL.CanStudentSubscribe(student.ID,course.CourseID);
             Assert.False(result);
@@ -138,8 +143,8 @@ namespace ContosoUniversity.Tests.Controllers
         [Test]
         public void Subscribe_SubscribeStudent_StudentAdded()
         {
-            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
-            Course course = generator.CreateCourse(testcourse);
+            Student student = generator.CreateStudent(testlastnamestudent, testfirstnamestudent, testloginstudent, testpasswordstudent);
+            Course course = generator.CreateCourse(testcoursetitle, testdepartmentname, testlastnameinstructor, testfirstnameinstructor, testlogininstructor, testpasswordinstructor);
             StudentEnrollmentBL.Subscribe(student.ID, course.CourseID);
             var enrollmentexist = DBUtils.db.Enrollments.FirstOrDefault(e => e.StudentID == student.ID && e.CourseID == course.CourseID);
             Assert.NotNull(enrollmentexist);
