@@ -13,17 +13,7 @@ namespace ContosoUniversity.Tests.Tools
 {
     public class EntityGenerator
     {
-        private readonly SchoolContext dbContext;
-
-        public EntityGenerator(SchoolContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
-        public EntityGenerator()
-        {
-        }
-
+       
         public Student CreateStudent(string lastname, string firstname, string login, string password)
         {
             var student = new Student()
