@@ -143,11 +143,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business\AuthenticationBusiness.cs" />
+    <Compile Include="Business\StudentEnrollmentBL.cs" />
     <Compile Include="Business\UsernameValidation.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Business\DBUtils.cs" />
     <Compile Include="Business\StudentBL.cs" />
+    <Compile Include="Controllers\Api\InstructorApiController.cs" />
     <Compile Include="Controllers\Api\StudentApiController.cs" />
     <Compile Include="Controllers\Api\UsernameApiController.cs" />
     <Compile Include="Controllers\CourseController.cs" />

@@ -34,11 +34,18 @@ namespace ContosoUniversity.Tests.Controllers
         }
 
         //Tests for GetStudentById()
+
+        //Arrange for all tests
+        string testlastname = "testlastname";
+        string testfirstname = "testfirstname";
+        string testlogin = "testlogin";
+        string testpassword = "testpassword";
+
         [Test]
         public void GetStudentById_StudentIdExists_ReturnStudent()
         {
             //Arrange
-            Student student = generator.CreateStudent("John","Doe","Doe","Doe");
+            Student student = generator.CreateStudent(testlastname,testfirstname, testlogin, testpassword);
             //Act
             var result = studentBL.GetStudentById(student.ID);
             //Assert
@@ -48,7 +55,7 @@ namespace ContosoUniversity.Tests.Controllers
         [Test]
         public void GetStudentById_StudentIdDoesntExist_Null()
         {
-             //Act
+            //Act
             var result = studentBL.GetStudentById(0);
             //Assert
             Assert.IsNull(result);
@@ -59,12 +66,12 @@ namespace ContosoUniversity.Tests.Controllers
         public void TransformStudentToStudentDTO_StudentIdExists_ReturnStudent()
         {
             //Arrange
-            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
+            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
             //Act
             var result = TransformStudentDTO.TransformStudentToStudentDTO(student);
             //Assert
             Assert.That(result, Is.Not.Null);
-            Assert.IsInstanceOf(typeof(StudentDTO),result);
+            Assert.IsInstanceOf(typeof(StudentDTO), result);
             Assert.AreEqual(result.id, student.ID);
         }
 
@@ -73,7 +80,7 @@ namespace ContosoUniversity.Tests.Controllers
         public void StudentApiController_StudentIdExists_ReturnJSON()
         {
             //Arrange
-            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
+            Student student = generator.CreateStudent(testlastname, testfirstname, testlogin, testpassword);
             //string expectedjson ="{\"id\":"+student.ID+",\"lastname\":\""+student.LastName+"\",\"firstname\":\""+student.FirstMidName+"\",\"enrollmentDate\":\""+student.EnrollmentDate+",\"enrollments\":[{\"courseId\":"+student.Enrollments+"},]}";
             IHttpActionResult result = controllerToTest.Get(student.ID);
             //Assert
@@ -89,7 +96,7 @@ namespace ContosoUniversity.Tests.Controllers
         public void StudentApiController_StudentIdDoesntExist_Return404()
         {
             //Arrange
-            Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
+            Student student = generator.CreateStudent(testlastname,testfirstname, testlogin, testpassword);
             //string expectedjson = "{\"id\":" + student.ID + ",\"lastname\":\"" + student.LastName + "\",\"firstname\":\"" + student.FirstMidName + "\",\"enrollmentDate\":\"" + student.EnrollmentDate + ",\"enrollments\":[{\"courseId\":" + student.Enrollments + "},]}";
             IHttpActionResult result = controllerToTest.Get(-2);
             //Assert
