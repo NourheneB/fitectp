@@ -210,7 +210,6 @@
     <Compile Include="Controllers\AccountControllerTests.cs" />
     <Compile Include="Controllers\StudentApiStudentTests.cs" />
     <Compile Include="Controllers\StudentControllerTests.cs" />
-    <Compile Include="Controllers\UsernameApiControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HashServiceTests.cs" />
     <Compile Include="Tools\EntityGenerator.cs" />

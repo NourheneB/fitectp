@@ -1,4 +1,5 @@
 ﻿using ContosoUniversity.Business;
+using ContosoUniversity.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace ContosoUniversity.Controllers.Api
     [RoutePrefix("api/userInfo")]
     public class UsernameApiController : ApiController
     {
+       
         [Route("{username}")]
         [HttpGet]
         public IHttpActionResult Get(string username)

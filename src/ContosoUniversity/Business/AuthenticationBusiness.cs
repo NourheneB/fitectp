@@ -45,8 +45,6 @@ namespace ContosoUniversity.Business
             };
 
             db.Instructors.Add(newInstructor);
-
-
             db.SaveChanges();
         }
 
