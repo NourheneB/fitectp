@@ -7,6 +7,8 @@ using ContosoUniversity.Tests.Tools;
 using NUnit.Framework;
 using System.Web.Http;
 using System.Web.Http.Results;
+using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace ContosoUniversity.Tests.Controllers
 {
@@ -21,11 +23,11 @@ namespace ContosoUniversity.Tests.Controllers
         public void Initialize()
         {
             httpContext = new MockHttpContextWrapper();
-            //controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
             DBUtils.db = new DAL.SchoolContext(this.ConnectionString);
             studentBL = new StudentBL();
             generator = new EntityGenerator();
             controllerToTest = new StudentApiController();
+            //controllerToTest.ControllerContext = new ControllerContext(httpContext.Context.Object, new RouteData(), controllerToTest);
         }
         [TearDown]
         public void TearDown()
