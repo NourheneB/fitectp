@@ -76,13 +76,14 @@ namespace ContosoUniversity.Tests.Controllers
             string previousFirstName = "George";
             string login = "login";
             string password = "password";
+            
 
             Student student = generator.CreateStudent(previousLastName, previousFirstName, login, password);
             student.LastName = expectedLastName;
 
             FormDataHelper.PopulateFormData(controllerToTest, student);
 
-            var result = controllerToTest.EditPost(student.ID) as ViewResult;
+            var result = controllerToTest.EditPost(student.ID,null) as ViewResult;
 
             Student savedStudent = controllerToTest.DbContext.Students.Find(student.ID);
 
