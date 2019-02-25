@@ -26,7 +26,8 @@ namespace ContosoUniversity.Tests.Tools
                 Enrollments = new List<Enrollment>()
             };
 
-            this.dbContext.Students.Add(student);
+            DBUtils.db.Students.Add(student);
+            DBUtils.db.SaveChanges();
             return student;
         }
         //CreatePerson for LoginPersonTest
