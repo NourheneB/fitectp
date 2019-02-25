@@ -35,7 +35,8 @@ namespace ContosoUniversity.Tests.Tools
                 EnrollmentDate = DateTime.Now,
             };
 
-            this.dbContext.Students.Add(student);
+            DBUtils.db.Students.Add(student);
+            DBUtils.db.SaveChanges();
             return student;
         }
         //CreatePerson for LoginPersonTest
