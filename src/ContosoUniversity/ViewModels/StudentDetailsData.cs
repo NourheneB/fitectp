@@ -21,5 +21,7 @@ namespace ContosoUniversity.ViewModels
         public Dictionary<int, string> Enrollments { get; set; }
 
         public Dictionary<int, string> Courses { get; set; }
+
+        public Person Person { get; set; }
     }
 }

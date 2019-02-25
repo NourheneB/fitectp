@@ -7,15 +7,29 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Student", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Student</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.Label("Photo de profil", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Partial("ProfilPicture", Model)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Changer photo de profil", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="fileUpload" id="imageUpload" />
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -43,7 +57,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" id="Save" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -53,6 +67,40 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+<div>
+    <strong id="messageError"> </strong>
+</div>
+
+@if (ViewBag.MessageError != null)
+{
+    <div class="alert alert-danger">
+        <strong> @ViewBag.MessageError </strong>
+    </div>
+}
+
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $('#Save').click(function (event) {
+                var image = $('#imageUpload');
+                var message = $("#messageError");
+
+                if (image.get(0).files.length === 0) {
+                    message.html("Your file doesn't exist");
+                    message.addClass("text-danger");
+                    event.preventDefault();
+                    console.log(image);
+                }
+                else if (image[0].files[0].size > 100000) {
+                    message.html("Your file can't exceed 100KB");
+                    message.addClass("text-danger");
+                    event.preventDefault();
+                    console.log("test2");
+                }
+                else {
+                    message.empty();
+                }
+            })
+        })
+    </script>
 }

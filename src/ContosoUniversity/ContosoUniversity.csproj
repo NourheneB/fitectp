@@ -274,8 +274,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
-    <Content Include="Data\Image\Non-SubscribeCourse.png" />
-    <Content Include="Data\Image\SubscribeCourse.png" />
+    <Content Include="Data\Images\Non-SubscribeCourse.png" />
+    <Content Include="Data\Images\SubscribeCourse.png" />
+    <Content Include="Data\ProfilPictures\no-profile.jpeg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -346,6 +347,7 @@
     <Content Include="Views\Lesson\Edit.cshtml" />
     <Content Include="Views\Lesson\Index.cshtml" />
     <Content Include="Views\Home\IndexInstructor.cshtml" />
+    <Content Include="Views\Shared\ProfilPicture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

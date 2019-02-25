@@ -7,8 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
+using System.Web;
 using System.Web.Mvc;
 
 namespace ContosoUniversity.Controllers
@@ -95,7 +98,8 @@ namespace ContosoUniversity.Controllers
                 FirstMidName = student.FirstMidName,
                 EnrollmentDate = student.EnrollmentDate,
                 Enrollments = enrollmentsData,
-                Courses = coursesData
+                Courses = coursesData,
+                Person = student
             };
 
             TempData["StudentID"] = student.ID;
@@ -124,8 +128,8 @@ namespace ContosoUniversity.Controllers
             return RedirectToAction("Details", new { controller = "Student", action = "Details", id = studentID });
         }
 
-            // GET: Student/Create
-            public ActionResult Create()
+        // GET: Student/Create
+        public ActionResult Create()
         {
             return View();
         }
@@ -175,13 +179,51 @@ namespace ContosoUniversity.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult EditPost(int? id)
+        public ActionResult EditPost(int? id, HttpPostedFileBase fileUpload)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var studentToUpdate = db.Students.Find(id);
+            Student studentToUpdate = db.Students.Find(id);
+
+            if (fileUpload == null)
+            {
+                ViewBag.MessageError = "Your file doesn't exist";
+                return View(studentToUpdate);
+            }
+            else if (fileUpload.ContentLength > 100000)
+            {
+                ViewBag.MessageError = "Your file can't exceed 100KB";
+                return View(studentToUpdate);
+            }
+            // On test si le fichier n'est pas un fichier en extension ".jpeg" (avec la classe MediaTypeNames) ou ".png" (pas d'equivalent dans la classe MediaTypeNames)
+            else if (fileUpload.ContentType != MediaTypeNames.Image.Jpeg && fileUpload.ContentType != "image/png")
+            {
+                ViewBag.MessageError = "Your file has to be in .jpeg or .png extension";
+                return View(studentToUpdate);
+            }
+            else
+            {
+                string filepath = Path.Combine(Server.MapPath("~/Data/ProfilPictures"), studentToUpdate.FirstMidName + studentToUpdate.LastName + ".jpeg");
+
+                Models.File profilPicture = new Models.File()
+                {
+                    Libelle = studentToUpdate.FirstMidName + studentToUpdate.LastName + ".jpeg",
+                    Path = "/Data/ProfilPictures/",
+                    PersonID = studentToUpdate.ID,
+                };
+
+                if (db.Files.FirstOrDefault(f => f.PersonID == studentToUpdate.ID) != null)
+                {
+                    Models.File fileExist = db.Files.FirstOrDefault(f => f.PersonID == studentToUpdate.ID);
+                    db.Files.Remove(fileExist);
+                }
+
+                db.Files.Add(profilPicture);
+                fileUpload.SaveAs(filepath);
+            }
+
             if (TryUpdateModel(studentToUpdate, "",
                new string[] { "LastName", "FirstMidName", "EnrollmentDate" }))
             {
