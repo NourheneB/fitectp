@@ -131,6 +131,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Business\InstructorBL.cs" />
     <Compile Include="Business\ScheduleBL.cs" />
     <Compile Include="Business\AuthenticationBusiness.cs" />
     <Compile Include="Business\CourseBL.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Business\DBUtils.cs" />
     <Compile Include="Business\StudentBL.cs" />
+    <Compile Include="Controllers\Api\InstructorApiController.cs" />
     <Compile Include="Controllers\Api\StudentApiController.cs" />
     <Compile Include="Controllers\Api\UsernameApiController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
@@ -155,6 +157,8 @@
     <Compile Include="DAL\SchoolInterceptorLogging.cs" />
     <Compile Include="DAL\SchoolInterceptorTransientErrors.cs" />
     <Compile Include="DTOModels\EnrollmentDTO.cs" />
+    <Compile Include="DTOModels\InstructorDTO.cs" />
+    <Compile Include="DTOModels\LessonDTO.cs" />
     <Compile Include="DTOModels\StudentDTO.cs" />
     <Compile Include="Enumeration\CourseDay.cs" />
     <Compile Include="Global.asax.cs">
@@ -211,7 +215,7 @@
     <Compile Include="Services\ConnexionService.cs" />
     <Compile Include="Services\HashService.cs" />
     <Compile Include="Services\TimeService.cs" />
-    <Compile Include="Services\TransformStudentDTO.cs" />
+    <Compile Include="Services\TransformToDTO.cs" />
     <Compile Include="ViewModels\WeeklyScheduleVM.cs" />
     <Compile Include="ViewModels\AssignedCourseData.cs" />
     <Compile Include="ViewModels\EnrollmentDateGroup.cs" />

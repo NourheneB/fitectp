@@ -61,7 +61,7 @@ namespace ContosoUniversity.Tests.Controllers
             //Arrange
             Student student = generator.CreateStudent("John", "Doe", "Doe", "Doe");
             //Act
-            var result = TransformStudentDTO.TransformStudentToStudentDTO(student);
+            var result = TransformToDTO.TransformStudentToStudentDTO(student);
             //Assert
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf(typeof(StudentDTO),result);

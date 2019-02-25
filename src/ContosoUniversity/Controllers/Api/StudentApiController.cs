@@ -27,7 +27,7 @@ namespace ContosoUniversity.Controllers.Api
 
             else
             {
-                 return Ok(TransformStudentDTO.TransformStudentToStudentDTO(studentToTransform));
+                 return Ok(TransformToDTO.TransformStudentToStudentDTO(studentToTransform));
             }
         }
 
